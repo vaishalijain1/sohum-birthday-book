@@ -15,22 +15,58 @@
     .header-title { font-size: 15px; font-weight: 600; }
     .header-sub { font-size: 12px; color: #888; margin-top: 1px; }
 
+    .screen { display: none; }
+    .screen.active { display: block; }
+
     .panel { padding: 20px; }
     .info-box { background: #EEEDFE; border-radius: 10px; padding: 13px 15px; margin-bottom: 20px; font-size: 13px; color: #534AB7; line-height: 1.5; }
-
     .form-group { margin-bottom: 18px; }
     label { font-size: 13px; color: #666; display: block; margin-bottom: 6px; }
     input[type=text] { width: 100%; padding: 11px 13px; font-size: 14px; border: 1px solid #e0e0e0; border-radius: 8px; background: white; color: #1a1a1a; outline: none; font-family: inherit; }
     input[type=text]:focus { border-color: #7F77DD; box-shadow: 0 0 0 3px rgba(127,119,221,0.1); }
 
+    /* mode toggle (shared for photo + video) */
+    .mode-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .mode-btn { padding: 13px 10px; border: 1.5px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; text-align: center; transition: all 0.15s; font-family: inherit; }
+    .mode-btn:hover, .mode-btn.active { border-color: #7F77DD; background: #EEEDFE; }
+    .mode-btn-icon { font-size: 24px; margin-bottom: 5px; }
+    .mode-btn-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .mode-btn-sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+    /* camera shared */
+    .cam-wrap { border-radius: 12px; overflow: hidden; background: #111; position: relative; }
+    .cam-wrap video { width: 100%; max-height: 300px; object-fit: cover; display: block; }
+    .cam-flip { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.45); border: none; border-radius: 50%; width: 38px; height: 38px; font-size: 18px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
+
+    /* photo camera */
+    .photo-cam-panel, .photo-upload-panel, .video-record-panel, .video-upload-panel { display: none; }
+    .photo-cam-panel.active, .photo-upload-panel.active, .video-record-panel.active, .video-upload-panel.active { display: block; }
+
+    .cam-shutter-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 12px; }
+    .shutter-btn { width: 62px; height: 62px; border-radius: 50%; background: white; border: 4px solid #7F77DD; cursor: pointer; font-size: 26px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .shutter-btn:hover { background: #EEEDFE; }
+    .shutter-btn:active { transform: scale(0.93); }
+    .cam-secondary-btn { padding: 9px 16px; border: 1.5px solid #ddd; border-radius: 8px; background: white; font-size: 12px; cursor: pointer; font-family: inherit; color: #555; }
+    .cam-secondary-btn:hover { border-color: #7F77DD; color: #7F77DD; }
+
+    /* captured photos strip */
+    .photos-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .photo-thumb-wrap { position: relative; width: 72px; height: 72px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+    .photo-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-thumb-remove { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.6); border: none; color: white; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
+    .add-more-btn { width: 72px; height: 72px; border-radius: 8px; border: 1.5px dashed #ccc; background: #fafafa; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 22px; color: #aaa; gap: 2px; font-family: inherit; flex-shrink: 0; }
+    .add-more-btn span { font-size: 10px; color: #bbb; }
+    .add-more-btn:hover { border-color: #7F77DD; background: #EEEDFE; color: #7F77DD; }
+
+    /* photo upload zone */
     .upload-zone { border: 1.5px dashed #ddd; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; background: #fafafa; transition: all 0.15s; position: relative; overflow: hidden; }
     .upload-zone:hover { border-color: #7F77DD; background: #EEEDFE; }
     .upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
     .upload-icon { font-size: 26px; margin-bottom: 8px; }
     .upload-text { font-size: 13px; color: #888; }
     .upload-sub { font-size: 11px; color: #bbb; margin-top: 4px; }
-    .upload-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; display: none; margin-top: 10px; }
 
+    /* prompt cards */
     .prompt-cards { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 14px; }
     .prompt-card { border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; background: white; display: flex; gap: 12px; cursor: pointer; transition: all 0.15s; }
     .prompt-card:hover, .prompt-card.selected { border-color: #7F77DD; background: #EEEDFE; }
@@ -39,66 +75,92 @@
     .prompt-desc { font-size: 12px; color: #888; line-height: 1.5; }
     .prompt-tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #EEEDFE; color: #534AB7; margin-top: 5px; }
 
-    /* Video option toggle */
-    .video-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .video-option-btn { padding: 14px 10px; border: 1.5px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; text-align: center; transition: all 0.15s; font-family: inherit; }
-    .video-option-btn:hover { border-color: #7F77DD; background: #EEEDFE; }
-    .video-option-btn.active { border-color: #7F77DD; background: #EEEDFE; }
-    .video-option-icon { font-size: 26px; margin-bottom: 6px; }
-    .video-option-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
-    .video-option-sub { font-size: 11px; color: #888; margin-top: 3px; }
-
-    /* Upload panel */
-    .video-upload-panel { display: none; }
-    .video-upload-panel.active { display: block; }
-
-    /* Record panel */
-    .video-record-panel { display: none; }
-    .video-record-panel.active { display: block; }
-
-    .camera-container { border-radius: 12px; overflow: hidden; background: #000; position: relative; }
-    #camera-stream { width: 100%; max-height: 280px; object-fit: cover; display: block; border-radius: 12px; }
-    #recorded-playback { width: 100%; border-radius: 12px; display: none; }
-
+    /* video record */
     .camera-controls { display: flex; gap: 10px; margin-top: 12px; align-items: center; justify-content: center; }
     .record-btn { width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-family: inherit; }
     .record-btn.start { background: #ff4444; color: white; box-shadow: 0 0 0 4px rgba(255,68,68,0.2); }
-    .record-btn.start:hover { background: #cc0000; }
     .record-btn.stop { background: #333; color: white; }
-    .record-btn.stop:hover { background: #111; }
     .retake-btn { padding: 10px 18px; border: 1.5px solid #ddd; border-radius: 8px; background: white; font-size: 13px; cursor: pointer; font-family: inherit; color: #555; }
     .retake-btn:hover { border-color: #7F77DD; color: #7F77DD; }
     .recording-indicator { display: none; align-items: center; gap: 6px; font-size: 13px; color: #ff4444; font-weight: 500; }
     .recording-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff4444; animation: blink 1s infinite; }
-    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
     .recording-timer { font-size: 13px; color: #ff4444; font-weight: 600; }
-
     .video-done-badge { background: #E1F5EE; border: 1px solid #b2dfdb; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #0F6E56; display: none; align-items: center; gap: 8px; margin-top: 10px; }
 
-    .submit-btn { width: 100%; padding: 14px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .submit-btn:hover { background: #534AB7; }
-    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
+    /* progress + buttons */
     .progress-box { background: white; border: 1px solid #eee; border-radius: 10px; padding: 16px; margin-bottom: 18px; display: none; }
     .progress-label { font-size: 13px; color: #666; margin-bottom: 10px; }
     .progress-bar-bg { background: #f0f0f0; border-radius: 99px; height: 6px; }
-    .progress-bar-fill { background: #7F77DD; border-radius: 99px; height: 6px; width: 0%; transition: width 0.3s; }
+    .progress-bar-fill { background: #7F77DD; border-radius: 99px; height: 6px; width: 0%; transition: width 0.4s; }
     .progress-step { font-size: 12px; color: #7F77DD; margin-top: 8px; }
+    .submit-btn { width: 100%; padding: 14px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .submit-btn:hover { background: #534AB7; }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .error-msg { background: #fff0f0; border: 1px solid #fcc; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #c00; margin-bottom: 16px; display: none; }
 
-    .success-screen { display: none; text-align: center; padding: 40px 20px; }
+    /* ── PREVIEW SCREEN ── */
+    #preview-screen .panel { padding: 20px; }
+    .preview-header { text-align: center; margin-bottom: 20px; }
+    .preview-header h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .preview-header p { font-size: 13px; color: #888; line-height: 1.5; }
+
+    .book-spread { display: grid; grid-template-columns: 1fr 1fr; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.15); margin-bottom: 20px; min-height: 320px; }
+    .book-page-left { background: #f5f0e8; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 10px; border-right: 1px solid #e8e0d0; position: relative; }
+    .book-page-left::after { content:''; position:absolute; right:0; top:0; bottom:0; width:5px; background:linear-gradient(to right,rgba(0,0,0,0.06),transparent); }
+    .page-foot { position: absolute; bottom: 7px; font-size: 9px; color: #bbb; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* polaroid single */
+    .polaroid { background: white; padding: 8px 8px 24px; box-shadow: 0 3px 12px rgba(0,0,0,0.18); max-width: 120px; width: 100%; }
+    .polaroid img, .polaroid .pol-placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .polaroid .pol-placeholder { background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .polaroid-name { text-align: center; margin-top: 5px; font-size: 9px; font-family: Georgia, serif; color: #555; }
+    .rot-slight .polaroid  { transform: rotate(-2.5deg); }
+    .rot-straight .polaroid { transform: rotate(0deg); }
+    .rot-right .polaroid   { transform: rotate(2.5deg); }
+
+    /* collage grid */
+    .collage-grid { display: grid; gap: 4px; width: 100%; }
+    .collage-grid.cols-1 { grid-template-columns: 1fr; }
+    .collage-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .collage-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    .collage-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+    .collage-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 3px; }
+    .collage-name { text-align: center; font-size: 9px; font-family: Georgia, serif; color: #555; margin-top: 6px; }
+
+    .book-page-right { background: #fffef9; padding: 14px 12px; display: flex; flex-direction: column; justify-content: space-between; }
+    .book-from { font-size: 9px; font-weight: 700; color: #7F77DD; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; }
+    .book-message { font-size: 10px; line-height: 1.75; color: #333; font-family: Georgia, serif; flex: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 10; -webkit-box-orient: vertical; font-style: italic; }
+    .book-message.placeholder { color: #bbb; }
+    .book-qr-section { margin-top: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+    .book-qr-img { width: 46px; height: 46px; border-radius: 3px; }
+    .book-qr-label { font-size: 8px; color: #bbb; }
+
+    /* layout picker */
+    .layout-label { font-size: 13px; color: #555; font-weight: 500; margin-bottom: 10px; }
+    .layout-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 20px; }
+    .layout-opt { border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 9px 4px; text-align: center; cursor: pointer; transition: all 0.15s; background: white; font-family: inherit; }
+    .layout-opt:hover, .layout-opt.selected { border-color: #7F77DD; background: #EEEDFE; }
+    .layout-opt-icon { font-size: 18px; margin-bottom: 3px; }
+    .layout-opt-label { font-size: 10px; color: #555; font-weight: 500; }
+    .layout-opt-sub { font-size: 9px; color: #aaa; margin-top: 1px; }
+
+    .confirm-btn { width: 100%; padding: 14px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; margin-bottom: 10px; }
+    .confirm-btn:hover { background: #534AB7; }
+    .edit-btn { width: 100%; padding: 12px; background: white; color: #7F77DD; border: 1.5px solid #7F77DD; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+    .edit-btn:hover { background: #EEEDFE; }
+
+    /* success */
+    .success-screen { text-align: center; padding: 40px 20px; }
     .success-emoji { font-size: 52px; margin-bottom: 16px; }
     .success-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-    .success-sub { font-size: 14px; color: #888; line-height: 1.6; }
+    .success-sub { font-size: 14px; color: #888; line-height: 1.7; }
     .add-another-btn { margin-top: 24px; padding: 12px 28px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-
-    .error-msg { background: #fff0f0; border: 1px solid #fcc; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #c00; margin-bottom: 16px; display: none; }
-    .section-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; color: #bbb; font-size: 12px; }
-    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
   </style>
 </head>
 <body>
-
 <div class="container">
+
   <div class="header">
     <div class="header-icon">🎂</div>
     <div>
@@ -107,251 +169,387 @@
     </div>
   </div>
 
-  <div id="form-screen" class="panel">
-    <div class="info-box">
-      ✨ Your photo goes in the book, your video message gets transcribed right beside it — and the QR code lets Sohum watch you whenever he wants.
-    </div>
+  <!-- ══════════ FORM SCREEN ══════════ -->
+  <div class="screen active" id="form-screen">
+    <div class="panel">
+      <div class="info-box">✨ Your photo goes in the book, your video message gets transcribed beside it — and the QR lets Sohum watch you whenever he wants.</div>
+      <div class="error-msg" id="error-msg"></div>
 
-    <div class="error-msg" id="error-msg"></div>
-
-    <div class="form-group">
-      <label>Your name</label>
-      <input type="text" id="inp-name" placeholder="e.g. Auntie Priya" />
-    </div>
-
-    <div class="form-group">
-      <label>Your relation to Sohum</label>
-      <input type="text" id="inp-rel" placeholder="e.g. Grandma, Family friend…" />
-    </div>
-
-    <div class="form-group">
-      <label>Your giggling photo with / without Sohum</label>
-      <div class="upload-zone" id="photo-zone">
-        <input type="file" id="inp-photo" accept="image/*" onchange="previewPhoto(this)" />
-        <div id="photo-placeholder">
-          <div class="upload-icon">📷</div>
-          <div class="upload-text">Tap to choose a photo</div>
-          <div class="upload-sub">JPG or PNG</div>
-        </div>
-        <img id="photo-preview" class="upload-preview" alt="Preview" />
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" id="inp-name" placeholder="e.g. Auntie Priya" />
       </div>
-    </div>
-
-    <div class="form-group">
-      <label>Record a video wish</label>
-      <div style="font-size: 12px; color: #999; margin-bottom: 10px;">Not sure what to say? Pick an idea:</div>
-      <div class="prompt-cards">
-        <div class="prompt-card" onclick="selectPrompt(0)" id="prompt-0">
-          <div class="prompt-icon">🥰</div>
-          <div>
-            <div class="prompt-title">Share your favourite memory</div>
-            <div class="prompt-desc">A moment with Sohum this past year that made you smile.</div>
-            <span class="prompt-tag">most popular</span>
-          </div>
-        </div>
-        <div class="prompt-card" onclick="selectPrompt(1)" id="prompt-1">
-          <div class="prompt-icon">💡</div>
-          <div>
-            <div class="prompt-title">One piece of advice</div>
-            <div class="prompt-desc">A little nugget of wisdom for him to watch when he's older.</div>
-          </div>
-        </div>
-        <div class="prompt-card" onclick="selectPrompt(2)" id="prompt-2">
-          <div class="prompt-icon">💜</div>
-          <div>
-            <div class="prompt-title">A birthday message from the heart</div>
-            <div class="prompt-desc">Just look into the camera and tell Sohum how much he means to you.</div>
-          </div>
-        </div>
+      <div class="form-group">
+        <label>Your relation to Sohum</label>
+        <input type="text" id="inp-rel" placeholder="e.g. Grandma, Family friend…" />
       </div>
 
-      <!-- Video mode toggle -->
-      <div class="video-options">
-        <button class="video-option-btn active" id="opt-record" onclick="switchVideoMode('record')">
-          <div class="video-option-icon">🎥</div>
-          <div class="video-option-title">Record now</div>
-          <div class="video-option-sub">Use your camera</div>
-        </button>
-        <button class="video-option-btn" id="opt-upload" onclick="switchVideoMode('upload')">
-          <div class="video-option-icon">📁</div>
-          <div class="video-option-title">Upload video</div>
-          <div class="video-option-sub">From your gallery</div>
-        </button>
-      </div>
+      <!-- ── PHOTO SECTION ── -->
+      <div class="form-group">
+        <label>Your giggling photo with / without Sohum <span style="font-size:11px;color:#aaa;">— up to 4 photos</span></label>
 
-      <!-- RECORD PANEL -->
-      <div class="video-record-panel active" id="record-panel">
-        <div class="camera-container">
-          <video id="camera-stream" autoplay muted playsinline></video>
-          <video id="recorded-playback" controls></video>
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="photo-opt-cam" onclick="switchPhotoMode('cam')">
+            <div class="mode-btn-icon">📸</div>
+            <div class="mode-btn-title">Take photo</div>
+            <div class="mode-btn-sub">Open camera</div>
+          </button>
+          <button class="mode-btn" id="photo-opt-upload" onclick="switchPhotoMode('upload')">
+            <div class="mode-btn-icon">🖼️</div>
+            <div class="mode-btn-title">Upload photo</div>
+            <div class="mode-btn-sub">From gallery</div>
+          </button>
         </div>
-        <div class="camera-controls">
-          <div class="recording-indicator" id="recording-indicator">
-            <div class="recording-dot"></div>
-            <span class="recording-timer" id="recording-timer">0:00</span>
+
+        <!-- Camera panel -->
+        <div class="photo-cam-panel active" id="photo-cam-panel">
+          <div class="cam-wrap">
+            <video id="photo-cam-stream" autoplay playsinline muted></video>
+            <button class="cam-flip" onclick="flipCamera()" title="Flip camera">🔄</button>
+            <canvas id="photo-canvas" style="display:none;"></canvas>
           </div>
-          <button class="record-btn start" id="record-btn" onclick="toggleRecording()">⏺</button>
-          <button class="retake-btn" id="retake-btn" onclick="retakeVideo()" style="display:none">↩ Retake</button>
+          <div class="cam-shutter-row">
+            <button class="shutter-btn" onclick="capturePhoto()" title="Take photo">📸</button>
+          </div>
         </div>
-        <div class="video-done-badge" id="video-done-badge">
-          ✅ Video recorded! Ready to submit.
+
+        <!-- Upload panel -->
+        <div class="photo-upload-panel" id="photo-upload-panel">
+          <div class="upload-zone">
+            <input type="file" id="inp-photo" accept="image/*" multiple onchange="handlePhotoUpload(this)" />
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">Tap to choose photos</div>
+            <div class="upload-sub">Up to 4 · JPG or PNG</div>
+          </div>
         </div>
+
+        <!-- Captured photos strip (shared) -->
+        <div class="photos-strip" id="photos-strip" style="display:none; margin-top:12px;"></div>
+        <div style="font-size:11px;color:#aaa;margin-top:6px;" id="photo-count-label"></div>
       </div>
 
-      <!-- UPLOAD PANEL -->
-      <div class="video-upload-panel" id="upload-panel">
-        <div class="upload-zone">
-          <input type="file" id="inp-video" accept="video/*" onchange="handleVideoUpload(this)" />
-          <div id="video-placeholder">
+      <!-- ── VIDEO SECTION ── -->
+      <div class="form-group">
+        <label>Record a video wish</label>
+        <div style="font-size:12px;color:#999;margin-bottom:10px;">Not sure what to say? Pick an idea:</div>
+        <div class="prompt-cards">
+          <div class="prompt-card" onclick="selectPrompt(0)" id="prompt-0">
+            <div class="prompt-icon">🥰</div>
+            <div><div class="prompt-title">Share your favourite memory</div><div class="prompt-desc">A moment with Sohum this past year that made you smile.</div><span class="prompt-tag">most popular</span></div>
+          </div>
+          <div class="prompt-card" onclick="selectPrompt(1)" id="prompt-1">
+            <div class="prompt-icon">💡</div>
+            <div><div class="prompt-title">One piece of advice</div><div class="prompt-desc">A little nugget of wisdom for him to watch when he's older.</div></div>
+          </div>
+          <div class="prompt-card" onclick="selectPrompt(2)" id="prompt-2">
+            <div class="prompt-icon">💜</div>
+            <div><div class="prompt-title">A birthday message from the heart</div><div class="prompt-desc">Just look into the camera and tell Sohum how much he means to you.</div></div>
+          </div>
+        </div>
+
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="vid-opt-record" onclick="switchVideoMode('record')">
+            <div class="mode-btn-icon">🎥</div>
+            <div class="mode-btn-title">Record now</div>
+            <div class="mode-btn-sub">Use your camera</div>
+          </button>
+          <button class="mode-btn" id="vid-opt-upload" onclick="switchVideoMode('upload')">
+            <div class="mode-btn-icon">📁</div>
+            <div class="mode-btn-title">Upload video</div>
+            <div class="mode-btn-sub">From gallery</div>
+          </button>
+        </div>
+
+        <div class="video-record-panel active" id="record-panel">
+          <div class="cam-wrap">
+            <video id="camera-stream" autoplay muted playsinline></video>
+            <video id="recorded-playback" controls style="display:none;width:100%;"></video>
+          </div>
+          <div class="camera-controls">
+            <div class="recording-indicator" id="recording-indicator">
+              <div class="recording-dot"></div>
+              <span class="recording-timer" id="recording-timer">0:00</span>
+            </div>
+            <button class="record-btn start" id="record-btn" onclick="toggleRecording()">⏺</button>
+            <button class="retake-btn" id="retake-btn" onclick="retakeVideo()" style="display:none;">↩ Retake</button>
+          </div>
+          <div class="video-done-badge" id="video-done-badge">✅ Video recorded! Ready to submit.</div>
+        </div>
+
+        <div class="video-upload-panel" id="upload-panel">
+          <div class="upload-zone">
+            <input type="file" id="inp-video" accept="video/*" onchange="handleVideoUpload(this)" />
             <div class="upload-icon">📁</div>
             <div class="upload-text">Tap to choose from gallery</div>
-            <div class="upload-sub">MP4 or MOV · a few minutes max</div>
+            <div class="upload-sub">MP4 or MOV</div>
+            <video id="video-preview" style="width:100%;border-radius:8px;display:none;margin-top:10px;" controls></video>
           </div>
-          <video id="video-preview" style="width:100%;border-radius:8px;display:none;" controls></video>
         </div>
       </div>
 
-    </div>
+      <div class="progress-box" id="progress-box">
+        <div class="progress-label">Saving your memory…</div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+        <div class="progress-step" id="progress-step">Starting…</div>
+      </div>
 
-    <div class="progress-box" id="progress-box">
-      <div class="progress-label">Saving your memory…</div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
-      <div class="progress-step" id="progress-step">Starting…</div>
+      <button class="submit-btn" id="submit-btn" onclick="submitEntry()">💜 Send my memory to Sohum</button>
     </div>
-
-    <button class="submit-btn" id="submit-btn" onclick="submitEntry()">💜 Send my memory to Sohum</button>
   </div>
 
-  <div class="success-screen" id="success-screen">
-    <div class="success-emoji">🎂</div>
-    <div class="success-title">Thank you, <span id="success-name"></span>!</div>
-    <div class="success-sub">
-      Your photo will be printed in Sohum's book.<br />
-      Your video message will be transcribed right beside it.<br />
-      When he scans the QR, your video will play. 💜
+  <!-- ══════════ PREVIEW SCREEN ══════════ -->
+  <div class="screen" id="preview-screen">
+    <div class="panel">
+      <div class="preview-header">
+        <h2>Here's your page in the book 📖</h2>
+        <p>This is exactly how it will be printed.<br/>Choose how you'd like your photo to sit.</p>
+      </div>
+
+      <div class="layout-label">Choose your photo style</div>
+      <div class="layout-options" id="layout-options">
+        <button class="layout-opt selected" id="layout-slight" onclick="setLayout('slight')">
+          <div class="layout-opt-icon">↗️</div>
+          <div class="layout-opt-label">Slight tilt</div>
+          <div class="layout-opt-sub">Classic</div>
+        </button>
+        <button class="layout-opt" id="layout-straight" onclick="setLayout('straight')">
+          <div class="layout-opt-icon">⬜</div>
+          <div class="layout-opt-label">Straight</div>
+          <div class="layout-opt-sub">Clean</div>
+        </button>
+        <button class="layout-opt" id="layout-right" onclick="setLayout('right')">
+          <div class="layout-opt-icon">↘️</div>
+          <div class="layout-opt-label">Other way</div>
+          <div class="layout-opt-sub">Playful</div>
+        </button>
+        <button class="layout-opt" id="layout-collage" onclick="setLayout('collage')">
+          <div class="layout-opt-icon">🖼️</div>
+          <div class="layout-opt-label">Collage</div>
+          <div class="layout-opt-sub">Multi photo</div>
+        </button>
+      </div>
+
+      <div class="book-spread rot-slight" id="book-spread">
+        <div class="book-page-left" id="book-page-left">
+          <!-- filled by JS -->
+          <div class="page-foot">Photo</div>
+        </div>
+        <div class="book-page-right">
+          <div>
+            <div class="book-from" id="preview-from">—</div>
+            <div class="book-message placeholder" id="preview-message">Your transcribed video message will appear here…</div>
+          </div>
+          <div class="book-qr-section">
+            <img class="book-qr-img" id="preview-qr" src="" alt="QR Code" />
+            <div class="book-qr-label">Scan to watch video</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="confirm-btn" onclick="confirmSubmission()">Looks perfect! 💜 Confirm</button>
+      <button class="edit-btn" onclick="goBackToForm()">✏️ Go back &amp; edit</button>
     </div>
-    <button class="add-another-btn" onclick="resetForm()">Add another memory</button>
   </div>
+
+  <!-- ══════════ SUCCESS SCREEN ══════════ -->
+  <div class="screen" id="success-screen">
+    <div class="success-screen">
+      <div class="success-emoji">🎂</div>
+      <div class="success-title">Thank you, <span id="success-name"></span>!</div>
+      <div class="success-sub">Your page is in Sohum's book.<br/>Your video message has been transcribed right beside your photo.<br/>When he grows up and scans the QR, your face appears. 💜</div>
+      <button class="add-another-btn" onclick="resetAll()">Add another memory</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
   const SUPABASE_URL   = 'https://jeeseyaevluaeabenwwn.supabase.co';
   const SUPABASE_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplZXNleWFldmx1YWVhYmVud3duIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MTgwNDMsImV4cCI6MjA5NzA5NDA0M30.JjvLe5uUzmDRy-y4Qb7BHDiqUyG5DkKW86yxucA4tXs';
   const ASSEMBLYAI_KEY = 'f0db3d622f4a447ead627b3fccb70e0e';
-
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
   // ── state ──
-  let videoMode = 'record'; // 'record' | 'upload'
-  let mediaRecorder = null;
-  let recordedChunks = [];
-  let recordedBlob = null;
-  let cameraStream = null;
-  let recordingTimer = null;
-  let recordingSeconds = 0;
-  let isRecording = false;
+  let capturedPhotos   = [];   // [{dataUrl, blob}]
+  let photoMode        = 'cam';
+  let photoCamStream   = null;
+  let facingMode       = 'user';
+
+  let videoMode        = 'record';
+  let mediaRecorder    = null, recordedChunks = [], recordedBlob = null;
+  let videoCamStream   = null, recordingTimer = null, recordingSeconds = 0, isRecording = false;
   let uploadedVideoFile = null;
 
-  // ── prompt selection ──
+  let savedData        = {};
+  let currentLayout    = 'slight';
+
+  // ─────────────────────────────────────────
+  // SCREEN NAV
+  // ─────────────────────────────────────────
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+
+  // ─────────────────────────────────────────
+  // PROMPTS
+  // ─────────────────────────────────────────
   function selectPrompt(idx) {
     document.querySelectorAll('.prompt-card').forEach((c, i) => c.classList.toggle('selected', i === idx));
   }
 
-  // ── photo preview ──
-  function previewPhoto(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const prev = document.getElementById('photo-preview');
-      prev.src = e.target.result;
-      prev.style.display = 'block';
-      document.getElementById('photo-placeholder').style.display = 'none';
-    };
-    reader.readAsDataURL(file);
+  // ─────────────────────────────────────────
+  // PHOTO — mode switch
+  // ─────────────────────────────────────────
+  async function switchPhotoMode(mode) {
+    photoMode = mode;
+    document.getElementById('photo-opt-cam').classList.toggle('active', mode === 'cam');
+    document.getElementById('photo-opt-upload').classList.toggle('active', mode === 'upload');
+    document.getElementById('photo-cam-panel').classList.toggle('active', mode === 'cam');
+    document.getElementById('photo-upload-panel').classList.toggle('active', mode === 'upload');
+    if (mode === 'cam') await startPhotoCam();
+    else stopPhotoCam();
   }
 
-  // ── video mode switch ──
-  async function switchVideoMode(mode) {
-    videoMode = mode;
-    document.getElementById('opt-record').classList.toggle('active', mode === 'record');
-    document.getElementById('opt-upload').classList.toggle('active', mode === 'upload');
-    document.getElementById('record-panel').classList.toggle('active', mode === 'record');
-    document.getElementById('upload-panel').classList.toggle('active', mode === 'upload');
-
-    if (mode === 'record') {
-      await startCamera();
-    } else {
-      stopCamera();
+  async function startPhotoCam() {
+    stopPhotoCam();
+    try {
+      photoCamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: false });
+      document.getElementById('photo-cam-stream').srcObject = photoCamStream;
+    } catch {
+      showError('Camera access denied. Please use Upload instead.');
+      switchPhotoMode('upload');
     }
   }
 
-  // ── camera ──
-  async function startCamera() {
+  function stopPhotoCam() {
+    if (photoCamStream) { photoCamStream.getTracks().forEach(t => t.stop()); photoCamStream = null; }
+  }
+
+  async function flipCamera() {
+    facingMode = facingMode === 'user' ? 'environment' : 'user';
+    await startPhotoCam();
+  }
+
+  function capturePhoto() {
+    if (capturedPhotos.length >= 4) return showError('Maximum 4 photos allowed!');
+    const video = document.getElementById('photo-cam-stream');
+    const canvas = document.getElementById('photo-canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    canvas.toBlob(blob => {
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      capturedPhotos.push({ dataUrl, blob });
+      renderPhotosStrip();
+    }, 'image/jpeg', 0.85);
+  }
+
+  function handlePhotoUpload(input) {
+    const files = Array.from(input.files).slice(0, 4 - capturedPhotos.length);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        capturedPhotos.push({ dataUrl: e.target.result, blob: file });
+        renderPhotosStrip();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function removePhoto(idx) {
+    capturedPhotos.splice(idx, 1);
+    renderPhotosStrip();
+  }
+
+  function renderPhotosStrip() {
+    const strip = document.getElementById('photos-strip');
+    const label = document.getElementById('photo-count-label');
+    if (capturedPhotos.length === 0) {
+      strip.style.display = 'none';
+      label.textContent = '';
+      return;
+    }
+    strip.style.display = 'flex';
+    label.textContent = `${capturedPhotos.length} photo${capturedPhotos.length > 1 ? 's' : ''} added${capturedPhotos.length > 1 ? ' — will appear as Collage' : ''}`;
+    strip.innerHTML = capturedPhotos.map((p, i) => `
+      <div class="photo-thumb-wrap">
+        <img src="${p.dataUrl}" alt="photo ${i+1}" />
+        <button class="photo-thumb-remove" onclick="removePhoto(${i})">✕</button>
+      </div>
+    `).join('');
+    if (capturedPhotos.length < 4) {
+      strip.innerHTML += `<button class="add-more-btn" onclick="${photoMode==='cam' ? 'capturePhoto()' : 'document.getElementById(\'inp-photo\').click()'}">＋<span>Add more</span></button>`;
+    }
+  }
+
+  // ─────────────────────────────────────────
+  // VIDEO — mode switch
+  // ─────────────────────────────────────────
+  async function switchVideoMode(mode) {
+    videoMode = mode;
+    document.getElementById('vid-opt-record').classList.toggle('active', mode === 'record');
+    document.getElementById('vid-opt-upload').classList.toggle('active', mode === 'upload');
+    document.getElementById('record-panel').classList.toggle('active', mode === 'record');
+    document.getElementById('upload-panel').classList.toggle('active', mode === 'upload');
+    if (mode === 'record') await startVideoCam();
+    else stopVideoCam();
+  }
+
+  async function startVideoCam() {
+    stopVideoCam();
     try {
-      cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
-      const stream = document.getElementById('camera-stream');
-      stream.srcObject = cameraStream;
-      stream.style.display = 'block';
+      videoCamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
+      const el = document.getElementById('camera-stream');
+      el.srcObject = videoCamStream; el.style.display = 'block';
       document.getElementById('recorded-playback').style.display = 'none';
       document.getElementById('record-btn').innerHTML = '⏺';
       document.getElementById('record-btn').className = 'record-btn start';
+      document.getElementById('record-btn').style.display = 'flex';
       document.getElementById('retake-btn').style.display = 'none';
       document.getElementById('video-done-badge').style.display = 'none';
       recordedBlob = null;
-    } catch (err) {
-      showError('Camera access denied. Please allow camera access and try again, or use the Upload option.');
+    } catch {
+      showError('Camera access denied. Please use Upload option.');
       switchVideoMode('upload');
     }
   }
 
-  function stopCamera() {
-    if (cameraStream) {
-      cameraStream.getTracks().forEach(t => t.stop());
-      cameraStream = null;
-    }
+  function stopVideoCam() {
+    if (videoCamStream) { videoCamStream.getTracks().forEach(t => t.stop()); videoCamStream = null; }
   }
 
-  function toggleRecording() {
-    if (isRecording) stopRecording();
-    else startRecording();
-  }
+  function toggleRecording() { isRecording ? stopRecording() : startRecording(); }
 
   function startRecording() {
-    if (!cameraStream) return;
+    if (!videoCamStream) return;
     recordedChunks = [];
-    mediaRecorder = new MediaRecorder(cameraStream);
+    mediaRecorder = new MediaRecorder(videoCamStream);
     mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
     mediaRecorder.onstop = onRecordingStop;
     mediaRecorder.start();
-    isRecording = true;
-    recordingSeconds = 0;
-
+    isRecording = true; recordingSeconds = 0;
     document.getElementById('record-btn').innerHTML = '⏹';
     document.getElementById('record-btn').className = 'record-btn stop';
     document.getElementById('recording-indicator').style.display = 'flex';
-
     recordingTimer = setInterval(() => {
       recordingSeconds++;
-      const m = Math.floor(recordingSeconds / 60);
-      const s = recordingSeconds % 60;
+      const m = Math.floor(recordingSeconds / 60), s = recordingSeconds % 60;
       document.getElementById('recording-timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
     }, 1000);
   }
 
   function stopRecording() {
     if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-    isRecording = false;
-    clearInterval(recordingTimer);
+    isRecording = false; clearInterval(recordingTimer);
     document.getElementById('recording-indicator').style.display = 'none';
   }
 
   function onRecordingStop() {
     recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
-    const url = URL.createObjectURL(recordedBlob);
-    const playback = document.getElementById('recorded-playback');
-    playback.src = url;
-    playback.style.display = 'block';
+    const pb = document.getElementById('recorded-playback');
+    pb.src = URL.createObjectURL(recordedBlob); pb.style.display = 'block';
     document.getElementById('camera-stream').style.display = 'none';
     document.getElementById('record-btn').style.display = 'none';
     document.getElementById('retake-btn').style.display = 'inline-block';
@@ -359,78 +557,64 @@
   }
 
   function retakeVideo() {
-    recordedBlob = null;
-    recordedChunks = [];
+    recordedBlob = null; recordedChunks = [];
     document.getElementById('recorded-playback').style.display = 'none';
     document.getElementById('record-btn').style.display = 'flex';
     document.getElementById('record-btn').innerHTML = '⏺';
     document.getElementById('record-btn').className = 'record-btn start';
     document.getElementById('retake-btn').style.display = 'none';
     document.getElementById('video-done-badge').style.display = 'none';
-    startCamera();
+    startVideoCam();
   }
 
-  // ── upload handler ──
   function handleVideoUpload(input) {
-    const file = input.files[0];
-    if (!file) return;
+    const file = input.files[0]; if (!file) return;
     uploadedVideoFile = file;
     const prev = document.getElementById('video-preview');
-    prev.src = URL.createObjectURL(file);
-    prev.style.display = 'block';
-    document.getElementById('video-placeholder').style.display = 'none';
+    prev.src = URL.createObjectURL(file); prev.style.display = 'block';
+    document.getElementById('video-placeholder') && (document.getElementById('video-placeholder').style.display = 'none');
   }
 
-  // ── helpers ──
+  // ─────────────────────────────────────────
+  // HELPERS
+  // ─────────────────────────────────────────
   function setProgress(pct, label) {
     document.getElementById('progress-fill').style.width = pct + '%';
     document.getElementById('progress-step').textContent = label;
   }
-
   function showError(msg) {
     const el = document.getElementById('error-msg');
-    el.textContent = msg;
-    el.style.display = 'block';
+    el.textContent = msg; el.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
   async function transcribeVideo(videoUrl) {
-    const submitRes = await fetch('https://api.assemblyai.com/v2/transcript', {
+    const res = await fetch('https://api.assemblyai.com/v2/transcript', {
       method: 'POST',
       headers: { authorization: ASSEMBLYAI_KEY, 'content-type': 'application/json' },
       body: JSON.stringify({ audio_url: videoUrl })
     });
-    const { id } = await submitRes.json();
+    const { id } = await res.json();
     while (true) {
       await new Promise(r => setTimeout(r, 3000));
-      const pollRes = await fetch(`https://api.assemblyai.com/v2/transcript/${id}`, {
-        headers: { authorization: ASSEMBLYAI_KEY }
-      });
-      const data = await pollRes.json();
+      const poll = await fetch(`https://api.assemblyai.com/v2/transcript/${id}`, { headers: { authorization: ASSEMBLYAI_KEY } });
+      const data = await poll.json();
       if (data.status === 'completed') return data.text;
       if (data.status === 'error') return '';
     }
   }
 
-  // ── submit ──
+  // ─────────────────────────────────────────
+  // SUBMIT
+  // ─────────────────────────────────────────
   async function submitEntry() {
     const name     = document.getElementById('inp-name').value.trim();
     const relation = document.getElementById('inp-rel').value.trim();
-    const photoFile = document.getElementById('inp-photo').files[0];
-
-    // get the video blob/file depending on mode
-    let videoBlob = null;
-    let videoExt  = 'webm';
-    if (videoMode === 'record') {
-      videoBlob = recordedBlob;
-    } else {
-      videoBlob = uploadedVideoFile;
-      if (videoBlob) videoExt = videoBlob.name.split('.').pop();
-    }
+    let videoBlob  = videoMode === 'record' ? recordedBlob : uploadedVideoFile;
+    let videoExt   = videoMode === 'record' ? 'webm' : (uploadedVideoFile ? uploadedVideoFile.name.split('.').pop() : 'mp4');
 
     document.getElementById('error-msg').style.display = 'none';
     if (!name)      return showError('Please enter your name.');
-    if (!videoBlob) return showError('Please record or upload a video — Sohum will watch it when he scans the QR!');
+    if (!videoBlob) return showError('Please record or upload a video!');
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
@@ -440,49 +624,45 @@
     try {
       const uid = crypto.randomUUID();
 
-      // 1. Upload photo
-      let photoUrl = null;
-      if (photoFile) {
-        setProgress(15, 'Uploading your photo…');
-        const photoExt  = photoFile.name.split('.').pop();
-        const photoPath = `${uid}/photo.${photoExt}`;
-        const { error: photoErr } = await sb.storage.from('photos').upload(photoPath, photoFile);
-        if (photoErr) throw new Error('Photo upload failed: ' + photoErr.message);
-        const { data: photoData } = sb.storage.from('photos').getPublicUrl(photoPath);
-        photoUrl = photoData.publicUrl;
+      // upload photos
+      const photoUrls = [];
+      if (capturedPhotos.length > 0) {
+        setProgress(15, `Uploading ${capturedPhotos.length} photo${capturedPhotos.length>1?'s':''}…`);
+        for (let i = 0; i < capturedPhotos.length; i++) {
+          const p = capturedPhotos[i];
+          const ext = p.blob instanceof File ? p.blob.name.split('.').pop() : 'jpg';
+          const path = `${uid}/photo_${i}.${ext}`;
+          const { error: pe } = await sb.storage.from('photos').upload(path, p.blob, { contentType: 'image/jpeg' });
+          if (pe) throw new Error('Photo upload failed: ' + pe.message);
+          const { data: pd } = sb.storage.from('photos').getPublicUrl(path);
+          photoUrls.push(pd.publicUrl);
+        }
       }
 
-      // 2. Upload video
-      setProgress(35, 'Uploading your video…');
+      // upload video
+      setProgress(40, 'Uploading your video…');
       const videoPath = `${uid}/video.${videoExt}`;
-      const { error: videoErr } = await sb.storage.from('videos').upload(videoPath, videoBlob, { contentType: videoMode === 'record' ? 'video/webm' : videoBlob.type });
-      if (videoErr) throw new Error('Video upload failed: ' + videoErr.message);
-      const { data: videoData } = sb.storage.from('videos').getPublicUrl(videoPath);
-      const videoUrl = videoData.publicUrl;
+      const { error: ve } = await sb.storage.from('videos').upload(videoPath, videoBlob, { contentType: videoMode === 'record' ? 'video/webm' : videoBlob.type });
+      if (ve) throw new Error('Video upload failed: ' + ve.message);
+      const { data: vd } = sb.storage.from('videos').getPublicUrl(videoPath);
+      const videoUrl = vd.publicUrl;
 
-      // 3. Transcribe
-      setProgress(55, 'Transcribing your video message…');
+      // transcribe
+      setProgress(60, 'Transcribing your video message…');
       const transcription = await transcribeVideo(videoUrl);
 
-      // 4. QR code
-      setProgress(80, 'Generating QR code…');
+      // qr
+      setProgress(85, 'Generating QR code…');
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(videoUrl)}`;
 
-      // 5. Save to DB
-      setProgress(90, 'Saving to the book…');
-      const { error: dbErr } = await sb.from('submissions').insert({
-        name, relation, photo_url: photoUrl,
-        video_url: videoUrl, transcription, qr_code_url: qrUrl
-      });
-      if (dbErr) throw new Error('Database save failed: ' + dbErr.message);
+      setProgress(100, 'Almost there…');
 
-      setProgress(100, 'Done!');
-      stopCamera();
-      await new Promise(r => setTimeout(r, 600));
+      // auto layout
+      const autoLayout = capturedPhotos.length > 1 ? 'collage' : 'slight';
 
-      document.getElementById('form-screen').style.display = 'none';
-      document.getElementById('success-name').textContent = name.split(' ')[0];
-      document.getElementById('success-screen').style.display = 'block';
+      savedData = { uid, name, relation, photoUrls, videoUrl, transcription, qrUrl, autoLayout };
+      stopPhotoCam(); stopVideoCam();
+      showPreviewScreen();
 
     } catch (err) {
       btn.disabled = false;
@@ -491,29 +671,120 @@
     }
   }
 
-  // ── reset ──
-  function resetForm() {
+  // ─────────────────────────────────────────
+  // PREVIEW
+  // ─────────────────────────────────────────
+  function showPreviewScreen() {
+    const { name, relation, transcription, qrUrl, autoLayout } = savedData;
+
+    document.getElementById('preview-from').textContent = '— ' + name + (relation ? ', ' + relation : '');
+    const msgEl = document.getElementById('preview-message');
+    if (transcription) { msgEl.textContent = transcription; msgEl.classList.remove('placeholder'); }
+    else { msgEl.textContent = 'Video received — transcription will appear in print.'; msgEl.classList.add('placeholder'); }
+    document.getElementById('preview-qr').src = qrUrl;
+
+    setLayout(autoLayout);
+    showScreen('preview-screen');
+  }
+
+  function buildLeftPage(layout) {
+    const leftPage = document.getElementById('book-page-left');
+    const { name, photoUrls } = savedData;
+    const foot = leftPage.querySelector('.page-foot');
+
+    if (layout === 'collage' && photoUrls.length > 0) {
+      const cols = photoUrls.length === 1 ? 'cols-1' : 'cols-2';
+      leftPage.innerHTML = `
+        <div class="collage-grid ${cols}" style="padding:8px;">
+          ${photoUrls.map((url, i) => `<img src="${url}" alt="photo ${i+1}" />`).join('')}
+        </div>
+        <div class="collage-name">${name}</div>
+        <div class="page-foot">Photo</div>
+      `;
+    } else {
+      // polaroid (single — first photo or placeholder)
+      const imgHtml = photoUrls.length > 0
+        ? `<img src="${photoUrls[0]}" alt="photo" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;" />`
+        : `<div class="pol-placeholder">📷</div>`;
+      leftPage.innerHTML = `
+        <div class="polaroid">
+          ${imgHtml}
+          <div class="polaroid-name">${name}</div>
+        </div>
+        <div class="page-foot">Photo</div>
+      `;
+    }
+  }
+
+  function setLayout(layout) {
+    currentLayout = layout;
+    document.querySelectorAll('.layout-opt').forEach(el => el.classList.remove('selected'));
+    document.getElementById('layout-' + layout).classList.add('selected');
+    const spread = document.getElementById('book-spread');
+    spread.classList.remove('rot-slight', 'rot-straight', 'rot-right');
+    if (layout === 'slight')    spread.classList.add('rot-slight');
+    if (layout === 'straight')  spread.classList.add('rot-straight');
+    if (layout === 'right')     spread.classList.add('rot-right');
+    buildLeftPage(layout);
+  }
+
+  // ─────────────────────────────────────────
+  // CONFIRM
+  // ─────────────────────────────────────────
+  async function confirmSubmission() {
+    const { name, relation, photoUrls, videoUrl, transcription, qrUrl } = savedData;
+    try {
+      const { error } = await sb.from('submissions').insert({
+        name, relation,
+        photo_url: photoUrls[0] || null,
+        photo_urls: photoUrls,
+        video_url: videoUrl,
+        transcription,
+        qr_code_url: qrUrl,
+        photo_layout: currentLayout
+      });
+      if (error) throw new Error(error.message);
+      document.getElementById('success-name').textContent = name.split(' ')[0];
+      showScreen('success-screen');
+    } catch (err) {
+      showScreen('form-screen');
+      showError('Could not save: ' + err.message);
+    }
+  }
+
+  function goBackToForm() {
+    document.getElementById('submit-btn').disabled = false;
+    document.getElementById('progress-box').style.display = 'none';
+    showScreen('form-screen');
+    if (videoMode === 'record') startVideoCam();
+    if (photoMode === 'cam') startPhotoCam();
+  }
+
+  // ─────────────────────────────────────────
+  // RESET
+  // ─────────────────────────────────────────
+  function resetAll() {
+    capturedPhotos = []; renderPhotosStrip();
+    uploadedVideoFile = null; recordedBlob = null; savedData = {};
     document.getElementById('inp-name').value = '';
     document.getElementById('inp-rel').value = '';
-    document.getElementById('inp-photo').value = '';
     document.getElementById('inp-video').value = '';
-    document.getElementById('photo-preview').style.display = 'none';
-    document.getElementById('photo-placeholder').style.display = 'block';
-    document.getElementById('video-preview').style.display = 'none';
-    document.getElementById('video-placeholder').style.display = 'block';
     document.querySelectorAll('.prompt-card').forEach(c => c.classList.remove('selected'));
     document.getElementById('progress-box').style.display = 'none';
     document.getElementById('error-msg').style.display = 'none';
     document.getElementById('submit-btn').disabled = false;
-    document.getElementById('success-screen').style.display = 'none';
-    document.getElementById('form-screen').style.display = 'block';
-    recordedBlob = null; uploadedVideoFile = null;
+    showScreen('form-screen');
+    switchPhotoMode('cam');
     switchVideoMode('record');
-    window.scrollTo({ top: 0 });
   }
 
-  // ── init: start camera on load ──
-  window.addEventListener('load', () => startCamera());
+  // ─────────────────────────────────────────
+  // INIT
+  // ─────────────────────────────────────────
+  window.addEventListener('load', async () => {
+    await startPhotoCam();
+    await startVideoCam();
+  });
 </script>
 </body>
 </html>
