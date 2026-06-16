@@ -20,8 +20,8 @@
 
     .form-group { margin-bottom: 18px; }
     label { font-size: 13px; color: #666; display: block; margin-bottom: 6px; }
-    input[type=text], textarea { width: 100%; padding: 11px 13px; font-size: 14px; border: 1px solid #e0e0e0; border-radius: 8px; background: white; color: #1a1a1a; outline: none; font-family: inherit; }
-    input[type=text]:focus, textarea:focus { border-color: #7F77DD; box-shadow: 0 0 0 3px rgba(127,119,221,0.1); }
+    input[type=text] { width: 100%; padding: 11px 13px; font-size: 14px; border: 1px solid #e0e0e0; border-radius: 8px; background: white; color: #1a1a1a; outline: none; font-family: inherit; }
+    input[type=text]:focus { border-color: #7F77DD; box-shadow: 0 0 0 3px rgba(127,119,221,0.1); }
 
     .upload-zone { border: 1.5px dashed #ddd; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; background: #fafafa; transition: all 0.15s; position: relative; overflow: hidden; }
     .upload-zone:hover { border-color: #7F77DD; background: #EEEDFE; }
@@ -30,7 +30,6 @@
     .upload-text { font-size: 13px; color: #888; }
     .upload-sub { font-size: 11px; color: #bbb; margin-top: 4px; }
     .upload-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; display: none; margin-top: 10px; }
-    .video-preview { width: 100%; border-radius: 8px; display: none; margin-top: 10px; }
 
     .prompt-cards { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 14px; }
     .prompt-card { border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; background: white; display: flex; gap: 12px; cursor: pointer; transition: all 0.15s; }
@@ -39,6 +38,42 @@
     .prompt-title { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
     .prompt-desc { font-size: 12px; color: #888; line-height: 1.5; }
     .prompt-tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #EEEDFE; color: #534AB7; margin-top: 5px; }
+
+    /* Video option toggle */
+    .video-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .video-option-btn { padding: 14px 10px; border: 1.5px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; text-align: center; transition: all 0.15s; font-family: inherit; }
+    .video-option-btn:hover { border-color: #7F77DD; background: #EEEDFE; }
+    .video-option-btn.active { border-color: #7F77DD; background: #EEEDFE; }
+    .video-option-icon { font-size: 26px; margin-bottom: 6px; }
+    .video-option-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .video-option-sub { font-size: 11px; color: #888; margin-top: 3px; }
+
+    /* Upload panel */
+    .video-upload-panel { display: none; }
+    .video-upload-panel.active { display: block; }
+
+    /* Record panel */
+    .video-record-panel { display: none; }
+    .video-record-panel.active { display: block; }
+
+    .camera-container { border-radius: 12px; overflow: hidden; background: #000; position: relative; }
+    #camera-stream { width: 100%; max-height: 280px; object-fit: cover; display: block; border-radius: 12px; }
+    #recorded-playback { width: 100%; border-radius: 12px; display: none; }
+
+    .camera-controls { display: flex; gap: 10px; margin-top: 12px; align-items: center; justify-content: center; }
+    .record-btn { width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-family: inherit; }
+    .record-btn.start { background: #ff4444; color: white; box-shadow: 0 0 0 4px rgba(255,68,68,0.2); }
+    .record-btn.start:hover { background: #cc0000; }
+    .record-btn.stop { background: #333; color: white; }
+    .record-btn.stop:hover { background: #111; }
+    .retake-btn { padding: 10px 18px; border: 1.5px solid #ddd; border-radius: 8px; background: white; font-size: 13px; cursor: pointer; font-family: inherit; color: #555; }
+    .retake-btn:hover { border-color: #7F77DD; color: #7F77DD; }
+    .recording-indicator { display: none; align-items: center; gap: 6px; font-size: 13px; color: #ff4444; font-weight: 500; }
+    .recording-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff4444; animation: blink 1s infinite; }
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+    .recording-timer { font-size: 13px; color: #ff4444; font-weight: 600; }
+
+    .video-done-badge { background: #E1F5EE; border: 1px solid #b2dfdb; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #0F6E56; display: none; align-items: center; gap: 8px; margin-top: 10px; }
 
     .submit-btn { width: 100%; padding: 14px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
     .submit-btn:hover { background: #534AB7; }
@@ -57,6 +92,8 @@
     .add-another-btn { margin-top: 24px; padding: 12px 28px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
     .error-msg { background: #fff0f0; border: 1px solid #fcc; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #c00; margin-bottom: 16px; display: none; }
+    .section-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; color: #bbb; font-size: 12px; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
   </style>
 </head>
 <body>
@@ -128,15 +165,52 @@
         </div>
       </div>
 
-      <div class="upload-zone">
-        <input type="file" id="inp-video" accept="video/*" onchange="previewVideo(this)" />
-        <div id="video-placeholder">
-          <div class="upload-icon">🎥</div>
-          <div class="upload-text">Tap to upload your video</div>
-          <div class="upload-sub">MP4 or MOV · a few minutes max</div>
-        </div>
-        <video id="video-preview" class="video-preview" controls></video>
+      <!-- Video mode toggle -->
+      <div class="video-options">
+        <button class="video-option-btn active" id="opt-record" onclick="switchVideoMode('record')">
+          <div class="video-option-icon">🎥</div>
+          <div class="video-option-title">Record now</div>
+          <div class="video-option-sub">Use your camera</div>
+        </button>
+        <button class="video-option-btn" id="opt-upload" onclick="switchVideoMode('upload')">
+          <div class="video-option-icon">📁</div>
+          <div class="video-option-title">Upload video</div>
+          <div class="video-option-sub">From your gallery</div>
+        </button>
       </div>
+
+      <!-- RECORD PANEL -->
+      <div class="video-record-panel active" id="record-panel">
+        <div class="camera-container">
+          <video id="camera-stream" autoplay muted playsinline></video>
+          <video id="recorded-playback" controls></video>
+        </div>
+        <div class="camera-controls">
+          <div class="recording-indicator" id="recording-indicator">
+            <div class="recording-dot"></div>
+            <span class="recording-timer" id="recording-timer">0:00</span>
+          </div>
+          <button class="record-btn start" id="record-btn" onclick="toggleRecording()">⏺</button>
+          <button class="retake-btn" id="retake-btn" onclick="retakeVideo()" style="display:none">↩ Retake</button>
+        </div>
+        <div class="video-done-badge" id="video-done-badge">
+          ✅ Video recorded! Ready to submit.
+        </div>
+      </div>
+
+      <!-- UPLOAD PANEL -->
+      <div class="video-upload-panel" id="upload-panel">
+        <div class="upload-zone">
+          <input type="file" id="inp-video" accept="video/*" onchange="handleVideoUpload(this)" />
+          <div id="video-placeholder">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Tap to choose from gallery</div>
+            <div class="upload-sub">MP4 or MOV · a few minutes max</div>
+          </div>
+          <video id="video-preview" style="width:100%;border-radius:8px;display:none;" controls></video>
+        </div>
+      </div>
+
     </div>
 
     <div class="progress-box" id="progress-box">
@@ -161,18 +235,29 @@
 </div>
 
 <script>
-  // ─── REPLACE THESE THREE VALUES WITH YOUR OWN ───
-  const SUPABASE_URL    = 'https://jeeseyaevluaeabenwwn.supabase.co';
-  const SUPABASE_ANON   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplZXNleWFldmx1YWVhYmVud3duIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MTgwNDMsImV4cCI6MjA5NzA5NDA0M30.JjvLe5uUzmDRy-y4Qb7BHDiqUyG5DkKW86yxucA4tXs';
-  const ASSEMBLYAI_KEY  = 'f0db3d622f4a447ead627b3fccb70e0e';
-  // ────────────────────────────────────────────────
+  const SUPABASE_URL   = 'https://jeeseyaevluaeabenwwn.supabase.co';
+  const SUPABASE_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplZXNleWFldmx1YWVhYmVud3duIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MTgwNDMsImV4cCI6MjA5NzA5NDA0M30.JjvLe5uUzmDRy-y4Qb7BHDiqUyG5DkKW86yxucA4tXs';
+  const ASSEMBLYAI_KEY = 'f0db3d622f4a447ead627b3fccb70e0e';
 
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
+  // ── state ──
+  let videoMode = 'record'; // 'record' | 'upload'
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let recordedBlob = null;
+  let cameraStream = null;
+  let recordingTimer = null;
+  let recordingSeconds = 0;
+  let isRecording = false;
+  let uploadedVideoFile = null;
+
+  // ── prompt selection ──
   function selectPrompt(idx) {
     document.querySelectorAll('.prompt-card').forEach((c, i) => c.classList.toggle('selected', i === idx));
   }
 
+  // ── photo preview ──
   function previewPhoto(input) {
     const file = input.files[0];
     if (!file) return;
@@ -186,15 +271,117 @@
     reader.readAsDataURL(file);
   }
 
-  function previewVideo(input) {
+  // ── video mode switch ──
+  async function switchVideoMode(mode) {
+    videoMode = mode;
+    document.getElementById('opt-record').classList.toggle('active', mode === 'record');
+    document.getElementById('opt-upload').classList.toggle('active', mode === 'upload');
+    document.getElementById('record-panel').classList.toggle('active', mode === 'record');
+    document.getElementById('upload-panel').classList.toggle('active', mode === 'upload');
+
+    if (mode === 'record') {
+      await startCamera();
+    } else {
+      stopCamera();
+    }
+  }
+
+  // ── camera ──
+  async function startCamera() {
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
+      const stream = document.getElementById('camera-stream');
+      stream.srcObject = cameraStream;
+      stream.style.display = 'block';
+      document.getElementById('recorded-playback').style.display = 'none';
+      document.getElementById('record-btn').innerHTML = '⏺';
+      document.getElementById('record-btn').className = 'record-btn start';
+      document.getElementById('retake-btn').style.display = 'none';
+      document.getElementById('video-done-badge').style.display = 'none';
+      recordedBlob = null;
+    } catch (err) {
+      showError('Camera access denied. Please allow camera access and try again, or use the Upload option.');
+      switchVideoMode('upload');
+    }
+  }
+
+  function stopCamera() {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(t => t.stop());
+      cameraStream = null;
+    }
+  }
+
+  function toggleRecording() {
+    if (isRecording) stopRecording();
+    else startRecording();
+  }
+
+  function startRecording() {
+    if (!cameraStream) return;
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(cameraStream);
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+    mediaRecorder.onstop = onRecordingStop;
+    mediaRecorder.start();
+    isRecording = true;
+    recordingSeconds = 0;
+
+    document.getElementById('record-btn').innerHTML = '⏹';
+    document.getElementById('record-btn').className = 'record-btn stop';
+    document.getElementById('recording-indicator').style.display = 'flex';
+
+    recordingTimer = setInterval(() => {
+      recordingSeconds++;
+      const m = Math.floor(recordingSeconds / 60);
+      const s = recordingSeconds % 60;
+      document.getElementById('recording-timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    }, 1000);
+  }
+
+  function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    isRecording = false;
+    clearInterval(recordingTimer);
+    document.getElementById('recording-indicator').style.display = 'none';
+  }
+
+  function onRecordingStop() {
+    recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
+    const url = URL.createObjectURL(recordedBlob);
+    const playback = document.getElementById('recorded-playback');
+    playback.src = url;
+    playback.style.display = 'block';
+    document.getElementById('camera-stream').style.display = 'none';
+    document.getElementById('record-btn').style.display = 'none';
+    document.getElementById('retake-btn').style.display = 'inline-block';
+    document.getElementById('video-done-badge').style.display = 'flex';
+  }
+
+  function retakeVideo() {
+    recordedBlob = null;
+    recordedChunks = [];
+    document.getElementById('recorded-playback').style.display = 'none';
+    document.getElementById('record-btn').style.display = 'flex';
+    document.getElementById('record-btn').innerHTML = '⏺';
+    document.getElementById('record-btn').className = 'record-btn start';
+    document.getElementById('retake-btn').style.display = 'none';
+    document.getElementById('video-done-badge').style.display = 'none';
+    startCamera();
+  }
+
+  // ── upload handler ──
+  function handleVideoUpload(input) {
     const file = input.files[0];
     if (!file) return;
+    uploadedVideoFile = file;
     const prev = document.getElementById('video-preview');
     prev.src = URL.createObjectURL(file);
     prev.style.display = 'block';
     document.getElementById('video-placeholder').style.display = 'none';
   }
 
+  // ── helpers ──
   function setProgress(pct, label) {
     document.getElementById('progress-fill').style.width = pct + '%';
     document.getElementById('progress-step').textContent = label;
@@ -214,7 +401,6 @@
       body: JSON.stringify({ audio_url: videoUrl })
     });
     const { id } = await submitRes.json();
-
     while (true) {
       await new Promise(r => setTimeout(r, 3000));
       const pollRes = await fetch(`https://api.assemblyai.com/v2/transcript/${id}`, {
@@ -226,15 +412,25 @@
     }
   }
 
+  // ── submit ──
   async function submitEntry() {
     const name     = document.getElementById('inp-name').value.trim();
     const relation = document.getElementById('inp-rel').value.trim();
     const photoFile = document.getElementById('inp-photo').files[0];
-    const videoFile = document.getElementById('inp-video').files[0];
+
+    // get the video blob/file depending on mode
+    let videoBlob = null;
+    let videoExt  = 'webm';
+    if (videoMode === 'record') {
+      videoBlob = recordedBlob;
+    } else {
+      videoBlob = uploadedVideoFile;
+      if (videoBlob) videoExt = videoBlob.name.split('.').pop();
+    }
 
     document.getElementById('error-msg').style.display = 'none';
     if (!name)      return showError('Please enter your name.');
-    if (!videoFile) return showError('Please upload a video — Sohum will watch it when he scans the QR!');
+    if (!videoBlob) return showError('Please record or upload a video — Sohum will watch it when he scans the QR!');
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
@@ -258,9 +454,8 @@
 
       // 2. Upload video
       setProgress(35, 'Uploading your video…');
-      const videoExt  = videoFile.name.split('.').pop();
       const videoPath = `${uid}/video.${videoExt}`;
-      const { error: videoErr } = await sb.storage.from('videos').upload(videoPath, videoFile);
+      const { error: videoErr } = await sb.storage.from('videos').upload(videoPath, videoBlob, { contentType: videoMode === 'record' ? 'video/webm' : videoBlob.type });
       if (videoErr) throw new Error('Video upload failed: ' + videoErr.message);
       const { data: videoData } = sb.storage.from('videos').getPublicUrl(videoPath);
       const videoUrl = videoData.publicUrl;
@@ -269,11 +464,11 @@
       setProgress(55, 'Transcribing your video message…');
       const transcription = await transcribeVideo(videoUrl);
 
-      // 4. Generate QR code URL (points to video)
+      // 4. QR code
       setProgress(80, 'Generating QR code…');
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(videoUrl)}`;
 
-      // 5. Save to database
+      // 5. Save to DB
       setProgress(90, 'Saving to the book…');
       const { error: dbErr } = await sb.from('submissions').insert({
         name, relation, photo_url: photoUrl,
@@ -282,6 +477,7 @@
       if (dbErr) throw new Error('Database save failed: ' + dbErr.message);
 
       setProgress(100, 'Done!');
+      stopCamera();
       await new Promise(r => setTimeout(r, 600));
 
       document.getElementById('form-screen').style.display = 'none';
@@ -295,6 +491,7 @@
     }
   }
 
+  // ── reset ──
   function resetForm() {
     document.getElementById('inp-name').value = '';
     document.getElementById('inp-rel').value = '';
@@ -310,8 +507,13 @@
     document.getElementById('submit-btn').disabled = false;
     document.getElementById('success-screen').style.display = 'none';
     document.getElementById('form-screen').style.display = 'block';
+    recordedBlob = null; uploadedVideoFile = null;
+    switchVideoMode('record');
     window.scrollTo({ top: 0 });
   }
+
+  // ── init: start camera on load ──
+  window.addEventListener('load', () => startCamera());
 </script>
 </body>
 </html>
