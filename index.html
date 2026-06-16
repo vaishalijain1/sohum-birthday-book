@@ -8,7 +8,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9f9f9; color: #1a1a1a; }
-    .container { max-width: 520px; margin: 0 auto; padding: 0 0 60px; }
+    .container { max-width: 520px; margin: 0 auto; padding: 0 0 80px; }
 
     .header { background: white; border-bottom: 1px solid #eee; padding: 16px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
     .header-icon { width: 38px; height: 38px; border-radius: 50%; background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 18px; }
@@ -17,15 +17,14 @@
 
     .screen { display: none; }
     .screen.active { display: block; }
-
     .panel { padding: 20px; }
+
     .info-box { background: #EEEDFE; border-radius: 10px; padding: 13px 15px; margin-bottom: 20px; font-size: 13px; color: #534AB7; line-height: 1.5; }
     .form-group { margin-bottom: 18px; }
     label { font-size: 13px; color: #666; display: block; margin-bottom: 6px; }
     input[type=text] { width: 100%; padding: 11px 13px; font-size: 14px; border: 1px solid #e0e0e0; border-radius: 8px; background: white; color: #1a1a1a; outline: none; font-family: inherit; }
     input[type=text]:focus { border-color: #7F77DD; box-shadow: 0 0 0 3px rgba(127,119,221,0.1); }
 
-    /* mode toggle (shared for photo + video) */
     .mode-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
     .mode-btn { padding: 13px 10px; border: 1.5px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; text-align: center; transition: all 0.15s; font-family: inherit; }
     .mode-btn:hover, .mode-btn.active { border-color: #7F77DD; background: #EEEDFE; }
@@ -33,32 +32,17 @@
     .mode-btn-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
     .mode-btn-sub { font-size: 11px; color: #888; margin-top: 2px; }
 
-    /* camera shared */
     .cam-wrap { border-radius: 12px; overflow: hidden; background: #111; position: relative; }
     .cam-wrap video { width: 100%; max-height: 300px; object-fit: cover; display: block; }
     .cam-flip { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.45); border: none; border-radius: 50%; width: 38px; height: 38px; font-size: 18px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
 
-    /* photo camera */
     .photo-cam-panel, .photo-upload-panel, .video-record-panel, .video-upload-panel { display: none; }
     .photo-cam-panel.active, .photo-upload-panel.active, .video-record-panel.active, .video-upload-panel.active { display: block; }
 
     .cam-shutter-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 12px; }
     .shutter-btn { width: 62px; height: 62px; border-radius: 50%; background: white; border: 4px solid #7F77DD; cursor: pointer; font-size: 26px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-    .shutter-btn:hover { background: #EEEDFE; }
     .shutter-btn:active { transform: scale(0.93); }
-    .cam-secondary-btn { padding: 9px 16px; border: 1.5px solid #ddd; border-radius: 8px; background: white; font-size: 12px; cursor: pointer; font-family: inherit; color: #555; }
-    .cam-secondary-btn:hover { border-color: #7F77DD; color: #7F77DD; }
 
-    /* captured photos strip */
-    .photos-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    .photo-thumb-wrap { position: relative; width: 72px; height: 72px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
-    .photo-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .photo-thumb-remove { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.6); border: none; color: white; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
-    .add-more-btn { width: 72px; height: 72px; border-radius: 8px; border: 1.5px dashed #ccc; background: #fafafa; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 22px; color: #aaa; gap: 2px; font-family: inherit; flex-shrink: 0; }
-    .add-more-btn span { font-size: 10px; color: #bbb; }
-    .add-more-btn:hover { border-color: #7F77DD; background: #EEEDFE; color: #7F77DD; }
-
-    /* photo upload zone */
     .upload-zone { border: 1.5px dashed #ddd; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; background: #fafafa; transition: all 0.15s; position: relative; overflow: hidden; }
     .upload-zone:hover { border-color: #7F77DD; background: #EEEDFE; }
     .upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
@@ -66,7 +50,15 @@
     .upload-text { font-size: 13px; color: #888; }
     .upload-sub { font-size: 11px; color: #bbb; margin-top: 4px; }
 
-    /* prompt cards */
+    .photos-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .photo-thumb-wrap { position: relative; width: 72px; height: 72px; border-radius: 8px; overflow: hidden; flex-shrink: 0; cursor: pointer; }
+    .photo-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-thumb-wrap .edit-badge { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(127,119,221,0.85); color: white; font-size: 9px; text-align: center; padding: 3px 0; }
+    .photo-thumb-remove { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.6); border: none; color: white; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .add-more-btn { width: 72px; height: 72px; border-radius: 8px; border: 1.5px dashed #ccc; background: #fafafa; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 22px; color: #aaa; gap: 2px; font-family: inherit; flex-shrink: 0; }
+    .add-more-btn span { font-size: 10px; color: #bbb; }
+    .add-more-btn:hover { border-color: #7F77DD; background: #EEEDFE; color: #7F77DD; }
+
     .prompt-cards { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 14px; }
     .prompt-card { border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; background: white; display: flex; gap: 12px; cursor: pointer; transition: all 0.15s; }
     .prompt-card:hover, .prompt-card.selected { border-color: #7F77DD; background: #EEEDFE; }
@@ -75,7 +67,6 @@
     .prompt-desc { font-size: 12px; color: #888; line-height: 1.5; }
     .prompt-tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #EEEDFE; color: #534AB7; margin-top: 5px; }
 
-    /* video record */
     .camera-controls { display: flex; gap: 10px; margin-top: 12px; align-items: center; justify-content: center; }
     .record-btn { width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-family: inherit; }
     .record-btn.start { background: #ff4444; color: white; box-shadow: 0 0 0 4px rgba(255,68,68,0.2); }
@@ -88,7 +79,6 @@
     .recording-timer { font-size: 13px; color: #ff4444; font-weight: 600; }
     .video-done-badge { background: #E1F5EE; border: 1px solid #b2dfdb; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #0F6E56; display: none; align-items: center; gap: 8px; margin-top: 10px; }
 
-    /* progress + buttons */
     .progress-box { background: white; border: 1px solid #eee; border-radius: 10px; padding: 16px; margin-bottom: 18px; display: none; }
     .progress-label { font-size: 13px; color: #666; margin-bottom: 10px; }
     .progress-bar-bg { background: #f0f0f0; border-radius: 99px; height: 6px; }
@@ -99,8 +89,48 @@
     .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .error-msg { background: #fff0f0; border: 1px solid #fcc; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #c00; margin-bottom: 16px; display: none; }
 
+    /* ── PHOTO EDITOR MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: none; align-items: flex-end; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet { background: white; border-radius: 20px 20px 0 0; padding: 20px; width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto; }
+    .modal-handle { width: 40px; height: 4px; background: #ddd; border-radius: 99px; margin: 0 auto 16px; }
+    .modal-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .modal-sub { font-size: 12px; color: #888; margin-bottom: 16px; }
+
+    .modal-photo-preview { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; margin-bottom: 16px; display: block; }
+
+    .effect-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #aaa; margin-bottom: 10px; }
+
+    /* filters */
+    .filters-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; }
+    .filter-opt { flex-shrink: 0; text-align: center; cursor: pointer; }
+    .filter-thumb { width: 64px; height: 64px; border-radius: 8px; overflow: hidden; border: 2.5px solid transparent; transition: all 0.15s; }
+    .filter-opt.selected .filter-thumb { border-color: #7F77DD; }
+    .filter-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .filter-label { font-size: 10px; color: #555; margin-top: 5px; font-weight: 500; }
+    .filter-opt.selected .filter-label { color: #7F77DD; }
+
+    /* CSS filters */
+    .f-none    { filter: none; }
+    .f-bw      { filter: grayscale(100%); }
+    .f-vintage { filter: sepia(60%) contrast(90%) brightness(105%); }
+    .f-warm    { filter: sepia(30%) saturate(140%) brightness(105%); }
+    .f-cool    { filter: hue-rotate(20deg) saturate(110%) brightness(105%); }
+    .f-fade    { filter: contrast(80%) brightness(110%) saturate(80%); }
+
+    /* frames */
+    .frames-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; }
+    .frame-opt { flex-shrink: 0; text-align: center; cursor: pointer; }
+    .frame-thumb { width: 64px; height: 64px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 28px; border: 2.5px solid transparent; transition: all 0.15s; background: #f5f5f5; }
+    .frame-opt.selected .frame-thumb { border-color: #7F77DD; background: #EEEDFE; }
+    .frame-label { font-size: 10px; color: #555; margin-top: 5px; font-weight: 500; }
+    .frame-opt.selected .frame-label { color: #7F77DD; }
+
+    .modal-apply-btn { width: 100%; padding: 13px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 4px; }
+    .modal-apply-btn:hover { background: #534AB7; }
+    .modal-cancel-btn { width: 100%; padding: 11px; background: white; color: #888; border: 1px solid #eee; border-radius: 10px; font-size: 14px; cursor: pointer; font-family: inherit; margin-top: 8px; }
+
     /* ── PREVIEW SCREEN ── */
-    #preview-screen .panel { padding: 20px; }
     .preview-header { text-align: center; margin-bottom: 20px; }
     .preview-header h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
     .preview-header p { font-size: 13px; color: #888; line-height: 1.5; }
@@ -110,23 +140,38 @@
     .book-page-left::after { content:''; position:absolute; right:0; top:0; bottom:0; width:5px; background:linear-gradient(to right,rgba(0,0,0,0.06),transparent); }
     .page-foot { position: absolute; bottom: 7px; font-size: 9px; color: #bbb; letter-spacing: 0.05em; text-transform: uppercase; }
 
-    /* polaroid single */
+    /* polaroid */
     .polaroid { background: white; padding: 8px 8px 24px; box-shadow: 0 3px 12px rgba(0,0,0,0.18); max-width: 120px; width: 100%; }
     .polaroid img, .polaroid .pol-placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
     .polaroid .pol-placeholder { background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 24px; }
     .polaroid-name { text-align: center; margin-top: 5px; font-size: 9px; font-family: Georgia, serif; color: #555; }
-    .rot-slight .polaroid  { transform: rotate(-2.5deg); }
-    .rot-straight .polaroid { transform: rotate(0deg); }
-    .rot-right .polaroid   { transform: rotate(2.5deg); }
 
-    /* collage grid */
-    .collage-grid { display: grid; gap: 4px; width: 100%; }
+    /* frames applied in preview */
+    .fr-none img   { border-radius: 0; box-shadow: none; }
+    .fr-polaroid   { background: white; padding: 6px 6px 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+    .fr-polaroid img { border-radius: 0 !important; }
+    .fr-round img  { border-radius: 50% !important; }
+    .fr-torn       { border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); position: relative; overflow: visible; }
+    .fr-film       { background: #111; padding: 4px; border-top: 10px solid #111; border-bottom: 10px solid #111; }
+    .fr-film img   { border-radius: 0 !important; }
+    .fr-gold       { border: 3px solid #c9a84c; box-shadow: 0 0 0 1px #f0d080; }
+
+    /* collage grid in preview */
+    .collage-wrap { padding: 8px; width: 100%; }
+    .collage-grid { display: grid; gap: 5px; }
     .collage-grid.cols-1 { grid-template-columns: 1fr; }
     .collage-grid.cols-2 { grid-template-columns: 1fr 1fr; }
     .collage-grid.cols-3 { grid-template-columns: 1fr 1fr; }
     .collage-grid.cols-4 { grid-template-columns: 1fr 1fr; }
-    .collage-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 3px; }
+    .collage-item { position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 4px; cursor: pointer; }
+    .collage-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .collage-edit-hint { position: absolute; inset: 0; background: rgba(127,119,221,0.0); display: flex; align-items: center; justify-content: center; font-size: 18px; opacity: 0; transition: opacity 0.15s; }
+    .collage-item:hover .collage-edit-hint { opacity: 1; background: rgba(127,119,221,0.3); }
     .collage-name { text-align: center; font-size: 9px; font-family: Georgia, serif; color: #555; margin-top: 6px; }
+
+    .rot-slight .polaroid  { transform: rotate(-2.5deg); }
+    .rot-straight .polaroid { transform: rotate(0deg); }
+    .rot-right .polaroid   { transform: rotate(2.5deg); }
 
     .book-page-right { background: #fffef9; padding: 14px 12px; display: flex; flex-direction: column; justify-content: space-between; }
     .book-from { font-size: 9px; font-weight: 700; color: #7F77DD; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; }
@@ -136,7 +181,6 @@
     .book-qr-img { width: 46px; height: 46px; border-radius: 3px; }
     .book-qr-label { font-size: 8px; color: #bbb; }
 
-    /* layout picker */
     .layout-label { font-size: 13px; color: #555; font-weight: 500; margin-bottom: 10px; }
     .layout-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 20px; }
     .layout-opt { border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 9px 4px; text-align: center; cursor: pointer; transition: all 0.15s; background: white; font-family: inherit; }
@@ -145,12 +189,13 @@
     .layout-opt-label { font-size: 10px; color: #555; font-weight: 500; }
     .layout-opt-sub { font-size: 9px; color: #aaa; margin-top: 1px; }
 
+    .edit-hint-bar { background: #EEEDFE; border-radius: 8px; padding: 9px 13px; font-size: 12px; color: #534AB7; margin-bottom: 16px; text-align: center; }
+
     .confirm-btn { width: 100%; padding: 14px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; margin-bottom: 10px; }
     .confirm-btn:hover { background: #534AB7; }
     .edit-btn { width: 100%; padding: 12px; background: white; color: #7F77DD; border: 1.5px solid #7F77DD; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
     .edit-btn:hover { background: #EEEDFE; }
 
-    /* success */
     .success-screen { text-align: center; padding: 40px 20px; }
     .success-emoji { font-size: 52px; margin-bottom: 16px; }
     .success-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
@@ -184,36 +229,27 @@
         <input type="text" id="inp-rel" placeholder="e.g. Grandma, Family friend…" />
       </div>
 
-      <!-- ── PHOTO SECTION ── -->
+      <!-- PHOTO -->
       <div class="form-group">
         <label>Your giggling photo with / without Sohum <span style="font-size:11px;color:#aaa;">— up to 4 photos</span></label>
-
         <div class="mode-toggle">
           <button class="mode-btn active" id="photo-opt-cam" onclick="switchPhotoMode('cam')">
-            <div class="mode-btn-icon">📸</div>
-            <div class="mode-btn-title">Take photo</div>
-            <div class="mode-btn-sub">Open camera</div>
+            <div class="mode-btn-icon">📸</div><div class="mode-btn-title">Take photo</div><div class="mode-btn-sub">Open camera</div>
           </button>
           <button class="mode-btn" id="photo-opt-upload" onclick="switchPhotoMode('upload')">
-            <div class="mode-btn-icon">🖼️</div>
-            <div class="mode-btn-title">Upload photo</div>
-            <div class="mode-btn-sub">From gallery</div>
+            <div class="mode-btn-icon">🖼️</div><div class="mode-btn-title">Upload photo</div><div class="mode-btn-sub">From gallery</div>
           </button>
         </div>
-
-        <!-- Camera panel -->
         <div class="photo-cam-panel active" id="photo-cam-panel">
           <div class="cam-wrap">
             <video id="photo-cam-stream" autoplay playsinline muted></video>
-            <button class="cam-flip" onclick="flipCamera()" title="Flip camera">🔄</button>
+            <button class="cam-flip" onclick="flipCamera()">🔄</button>
             <canvas id="photo-canvas" style="display:none;"></canvas>
           </div>
           <div class="cam-shutter-row">
-            <button class="shutter-btn" onclick="capturePhoto()" title="Take photo">📸</button>
+            <button class="shutter-btn" onclick="capturePhoto()">📸</button>
           </div>
         </div>
-
-        <!-- Upload panel -->
         <div class="photo-upload-panel" id="photo-upload-panel">
           <div class="upload-zone">
             <input type="file" id="inp-photo" accept="image/*" multiple onchange="handlePhotoUpload(this)" />
@@ -222,13 +258,11 @@
             <div class="upload-sub">Up to 4 · JPG or PNG</div>
           </div>
         </div>
-
-        <!-- Captured photos strip (shared) -->
-        <div class="photos-strip" id="photos-strip" style="display:none; margin-top:12px;"></div>
+        <div class="photos-strip" id="photos-strip" style="display:none;margin-top:12px;"></div>
         <div style="font-size:11px;color:#aaa;margin-top:6px;" id="photo-count-label"></div>
       </div>
 
-      <!-- ── VIDEO SECTION ── -->
+      <!-- VIDEO -->
       <div class="form-group">
         <label>Record a video wish</label>
         <div style="font-size:12px;color:#999;margin-bottom:10px;">Not sure what to say? Pick an idea:</div>
@@ -246,42 +280,30 @@
             <div><div class="prompt-title">A birthday message from the heart</div><div class="prompt-desc">Just look into the camera and tell Sohum how much he means to you.</div></div>
           </div>
         </div>
-
         <div class="mode-toggle">
           <button class="mode-btn active" id="vid-opt-record" onclick="switchVideoMode('record')">
-            <div class="mode-btn-icon">🎥</div>
-            <div class="mode-btn-title">Record now</div>
-            <div class="mode-btn-sub">Use your camera</div>
+            <div class="mode-btn-icon">🎥</div><div class="mode-btn-title">Record now</div><div class="mode-btn-sub">Use your camera</div>
           </button>
           <button class="mode-btn" id="vid-opt-upload" onclick="switchVideoMode('upload')">
-            <div class="mode-btn-icon">📁</div>
-            <div class="mode-btn-title">Upload video</div>
-            <div class="mode-btn-sub">From gallery</div>
+            <div class="mode-btn-icon">📁</div><div class="mode-btn-title">Upload video</div><div class="mode-btn-sub">From gallery</div>
           </button>
         </div>
-
         <div class="video-record-panel active" id="record-panel">
           <div class="cam-wrap">
             <video id="camera-stream" autoplay muted playsinline></video>
             <video id="recorded-playback" controls style="display:none;width:100%;"></video>
           </div>
           <div class="camera-controls">
-            <div class="recording-indicator" id="recording-indicator">
-              <div class="recording-dot"></div>
-              <span class="recording-timer" id="recording-timer">0:00</span>
-            </div>
+            <div class="recording-indicator" id="recording-indicator"><div class="recording-dot"></div><span class="recording-timer" id="recording-timer">0:00</span></div>
             <button class="record-btn start" id="record-btn" onclick="toggleRecording()">⏺</button>
             <button class="retake-btn" id="retake-btn" onclick="retakeVideo()" style="display:none;">↩ Retake</button>
           </div>
           <div class="video-done-badge" id="video-done-badge">✅ Video recorded! Ready to submit.</div>
         </div>
-
         <div class="video-upload-panel" id="upload-panel">
           <div class="upload-zone">
             <input type="file" id="inp-video" accept="video/*" onchange="handleVideoUpload(this)" />
-            <div class="upload-icon">📁</div>
-            <div class="upload-text">Tap to choose from gallery</div>
-            <div class="upload-sub">MP4 or MOV</div>
+            <div class="upload-icon">📁</div><div class="upload-text">Tap to choose from gallery</div><div class="upload-sub">MP4 or MOV</div>
             <video id="video-preview" style="width:100%;border-radius:8px;display:none;margin-top:10px;" controls></video>
           </div>
         </div>
@@ -292,7 +314,6 @@
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
         <div class="progress-step" id="progress-step">Starting…</div>
       </div>
-
       <button class="submit-btn" id="submit-btn" onclick="submitEntry()">💜 Send my memory to Sohum</button>
     </div>
   </div>
@@ -302,36 +323,21 @@
     <div class="panel">
       <div class="preview-header">
         <h2>Here's your page in the book 📖</h2>
-        <p>This is exactly how it will be printed.<br/>Choose how you'd like your photo to sit.</p>
+        <p>Choose a layout and tap any photo to add effects.</p>
       </div>
 
-      <div class="layout-label">Choose your photo style</div>
-      <div class="layout-options" id="layout-options">
-        <button class="layout-opt selected" id="layout-slight" onclick="setLayout('slight')">
-          <div class="layout-opt-icon">↗️</div>
-          <div class="layout-opt-label">Slight tilt</div>
-          <div class="layout-opt-sub">Classic</div>
-        </button>
-        <button class="layout-opt" id="layout-straight" onclick="setLayout('straight')">
-          <div class="layout-opt-icon">⬜</div>
-          <div class="layout-opt-label">Straight</div>
-          <div class="layout-opt-sub">Clean</div>
-        </button>
-        <button class="layout-opt" id="layout-right" onclick="setLayout('right')">
-          <div class="layout-opt-icon">↘️</div>
-          <div class="layout-opt-label">Other way</div>
-          <div class="layout-opt-sub">Playful</div>
-        </button>
-        <button class="layout-opt" id="layout-collage" onclick="setLayout('collage')">
-          <div class="layout-opt-icon">🖼️</div>
-          <div class="layout-opt-label">Collage</div>
-          <div class="layout-opt-sub">Multi photo</div>
-        </button>
+      <div class="layout-label">Choose your layout</div>
+      <div class="layout-options">
+        <button class="layout-opt selected" id="layout-slight" onclick="setLayout('slight')"><div class="layout-opt-icon">↗️</div><div class="layout-opt-label">Slight tilt</div><div class="layout-opt-sub">Classic</div></button>
+        <button class="layout-opt" id="layout-straight" onclick="setLayout('straight')"><div class="layout-opt-icon">⬜</div><div class="layout-opt-label">Straight</div><div class="layout-opt-sub">Clean</div></button>
+        <button class="layout-opt" id="layout-right" onclick="setLayout('right')"><div class="layout-opt-icon">↘️</div><div class="layout-opt-label">Other way</div><div class="layout-opt-sub">Playful</div></button>
+        <button class="layout-opt" id="layout-collage" onclick="setLayout('collage')"><div class="layout-opt-icon">🖼️</div><div class="layout-opt-label">Collage</div><div class="layout-opt-sub">Multi photo</div></button>
       </div>
+
+      <div class="edit-hint-bar" id="edit-hint-bar" style="display:none;">✨ Tap any photo to add filters &amp; frames</div>
 
       <div class="book-spread rot-slight" id="book-spread">
         <div class="book-page-left" id="book-page-left">
-          <!-- filled by JS -->
           <div class="page-foot">Photo</div>
         </div>
         <div class="book-page-right">
@@ -340,7 +346,7 @@
             <div class="book-message placeholder" id="preview-message">Your transcribed video message will appear here…</div>
           </div>
           <div class="book-qr-section">
-            <img class="book-qr-img" id="preview-qr" src="" alt="QR Code" />
+            <img class="book-qr-img" id="preview-qr" src="" alt="QR" />
             <div class="book-qr-label">Scan to watch video</div>
           </div>
         </div>
@@ -363,53 +369,85 @@
 
 </div>
 
+<!-- ══════════ PHOTO EDITOR MODAL ══════════ -->
+<div class="modal-overlay" id="editor-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit photo</div>
+    <div class="modal-sub">Choose a filter and a frame for this photo</div>
+
+    <img id="modal-photo-preview" class="modal-photo-preview" src="" alt="preview" />
+
+    <div class="effect-section-label">Filter</div>
+    <div class="filters-row" id="filters-row"></div>
+
+    <div class="effect-section-label">Frame</div>
+    <div class="frames-row" id="frames-row"></div>
+
+    <button class="modal-apply-btn" onclick="applyEffect()">Apply to this photo ✓</button>
+    <button class="modal-cancel-btn" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
 <script>
   const SUPABASE_URL   = 'https://jeeseyaevluaeabenwwn.supabase.co';
   const SUPABASE_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplZXNleWFldmx1YWVhYmVud3duIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MTgwNDMsImV4cCI6MjA5NzA5NDA0M30.JjvLe5uUzmDRy-y4Qb7BHDiqUyG5DkKW86yxucA4tXs';
   const ASSEMBLYAI_KEY = 'f0db3d622f4a447ead627b3fccb70e0e';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
+  // ── filters ──
+  const FILTERS = [
+    { id: 'none',    label: 'Original', css: 'none' },
+    { id: 'bw',      label: 'B & W',    css: 'grayscale(100%)' },
+    { id: 'vintage', label: 'Vintage',  css: 'sepia(60%) contrast(90%) brightness(105%)' },
+    { id: 'warm',    label: 'Warm',     css: 'sepia(30%) saturate(140%) brightness(105%)' },
+    { id: 'cool',    label: 'Cool',     css: 'hue-rotate(20deg) saturate(110%) brightness(105%)' },
+    { id: 'fade',    label: 'Fade',     css: 'contrast(80%) brightness(110%) saturate(80%)' },
+  ];
+
+  // ── frames ──
+  const FRAMES = [
+    { id: 'none',     label: 'None',     emoji: '⬜' },
+    { id: 'polaroid', label: 'Polaroid', emoji: '🟦' },
+    { id: 'round',    label: 'Round',    emoji: '🔵' },
+    { id: 'gold',     label: 'Gold',     emoji: '🟡' },
+    { id: 'film',     label: 'Film',     emoji: '🎞️' },
+  ];
+
   // ── state ──
-  let capturedPhotos   = [];   // [{dataUrl, blob}]
+  let capturedPhotos   = []; // {dataUrl, blob, filter:'none', frame:'none'}
   let photoMode        = 'cam';
   let photoCamStream   = null;
   let facingMode       = 'user';
-
   let videoMode        = 'record';
   let mediaRecorder    = null, recordedChunks = [], recordedBlob = null;
   let videoCamStream   = null, recordingTimer = null, recordingSeconds = 0, isRecording = false;
   let uploadedVideoFile = null;
-
   let savedData        = {};
   let currentLayout    = 'slight';
+  let editingPhotoIdx  = null;
+  let modalFilter      = 'none';
+  let modalFrame       = 'none';
 
-  // ─────────────────────────────────────────
-  // SCREEN NAV
-  // ─────────────────────────────────────────
+  // ── screens ──
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     window.scrollTo({ top: 0 });
   }
 
-  // ─────────────────────────────────────────
-  // PROMPTS
-  // ─────────────────────────────────────────
   function selectPrompt(idx) {
     document.querySelectorAll('.prompt-card').forEach((c, i) => c.classList.toggle('selected', i === idx));
   }
 
-  // ─────────────────────────────────────────
-  // PHOTO — mode switch
-  // ─────────────────────────────────────────
+  // ── photo mode ──
   async function switchPhotoMode(mode) {
     photoMode = mode;
     document.getElementById('photo-opt-cam').classList.toggle('active', mode === 'cam');
     document.getElementById('photo-opt-upload').classList.toggle('active', mode === 'upload');
     document.getElementById('photo-cam-panel').classList.toggle('active', mode === 'cam');
     document.getElementById('photo-upload-panel').classList.toggle('active', mode === 'upload');
-    if (mode === 'cam') await startPhotoCam();
-    else stopPhotoCam();
+    if (mode === 'cam') await startPhotoCam(); else stopPhotoCam();
   }
 
   async function startPhotoCam() {
@@ -417,31 +455,19 @@
     try {
       photoCamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: false });
       document.getElementById('photo-cam-stream').srcObject = photoCamStream;
-    } catch {
-      showError('Camera access denied. Please use Upload instead.');
-      switchPhotoMode('upload');
-    }
+    } catch { showError('Camera access denied. Use Upload instead.'); switchPhotoMode('upload'); }
   }
-
-  function stopPhotoCam() {
-    if (photoCamStream) { photoCamStream.getTracks().forEach(t => t.stop()); photoCamStream = null; }
-  }
-
-  async function flipCamera() {
-    facingMode = facingMode === 'user' ? 'environment' : 'user';
-    await startPhotoCam();
-  }
+  function stopPhotoCam() { if (photoCamStream) { photoCamStream.getTracks().forEach(t=>t.stop()); photoCamStream=null; } }
+  async function flipCamera() { facingMode = facingMode==='user'?'environment':'user'; await startPhotoCam(); }
 
   function capturePhoto() {
-    if (capturedPhotos.length >= 4) return showError('Maximum 4 photos allowed!');
+    if (capturedPhotos.length >= 4) return showError('Max 4 photos allowed!');
     const video = document.getElementById('photo-cam-stream');
     const canvas = document.getElementById('photo-canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth; canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
     canvas.toBlob(blob => {
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-      capturedPhotos.push({ dataUrl, blob });
+      capturedPhotos.push({ dataUrl: canvas.toDataURL('image/jpeg', 0.85), blob, filter: 'none', frame: 'none' });
       renderPhotosStrip();
     }, 'image/jpeg', 0.85);
   }
@@ -451,340 +477,290 @@
     files.forEach(file => {
       const reader = new FileReader();
       reader.onload = e => {
-        capturedPhotos.push({ dataUrl: e.target.result, blob: file });
+        capturedPhotos.push({ dataUrl: e.target.result, blob: file, filter: 'none', frame: 'none' });
         renderPhotosStrip();
       };
       reader.readAsDataURL(file);
     });
   }
 
-  function removePhoto(idx) {
-    capturedPhotos.splice(idx, 1);
-    renderPhotosStrip();
-  }
+  function removePhoto(idx) { capturedPhotos.splice(idx, 1); renderPhotosStrip(); }
 
   function renderPhotosStrip() {
     const strip = document.getElementById('photos-strip');
     const label = document.getElementById('photo-count-label');
-    if (capturedPhotos.length === 0) {
-      strip.style.display = 'none';
-      label.textContent = '';
-      return;
-    }
+    if (!capturedPhotos.length) { strip.style.display='none'; label.textContent=''; return; }
     strip.style.display = 'flex';
-    label.textContent = `${capturedPhotos.length} photo${capturedPhotos.length > 1 ? 's' : ''} added${capturedPhotos.length > 1 ? ' — will appear as Collage' : ''}`;
-    strip.innerHTML = capturedPhotos.map((p, i) => `
-      <div class="photo-thumb-wrap">
-        <img src="${p.dataUrl}" alt="photo ${i+1}" />
-        <button class="photo-thumb-remove" onclick="removePhoto(${i})">✕</button>
-      </div>
-    `).join('');
+    label.textContent = `${capturedPhotos.length} photo${capturedPhotos.length>1?'s':''} added${capturedPhotos.length>1?' — will appear as Collage':''}`;
+    strip.innerHTML = capturedPhotos.map((p, i) => {
+      const filterName = FILTERS.find(f=>f.id===p.filter)?.label || 'Original';
+      const frameName  = FRAMES.find(f=>f.id===p.frame)?.label || 'None';
+      const hasEffect  = p.filter!=='none' || p.frame!=='none';
+      return `<div class="photo-thumb-wrap" onclick="openEditor(${i})">
+        <img src="${p.dataUrl}" alt="photo ${i+1}" style="filter:${FILTERS.find(f=>f.id===p.filter)?.css||'none'}" />
+        <div class="edit-badge">${hasEffect ? '✨ edited' : '✏️ edit'}</div>
+        <button class="photo-thumb-remove" onclick="event.stopPropagation();removePhoto(${i})">✕</button>
+      </div>`;
+    }).join('');
     if (capturedPhotos.length < 4) {
-      strip.innerHTML += `<button class="add-more-btn" onclick="${photoMode==='cam' ? 'capturePhoto()' : 'document.getElementById(\'inp-photo\').click()'}">＋<span>Add more</span></button>`;
+      strip.innerHTML += `<button class="add-more-btn" onclick="${photoMode==='cam'?'capturePhoto()':'document.getElementById(\'inp-photo\').click()'}">＋<span>Add more</span></button>`;
     }
   }
 
-  // ─────────────────────────────────────────
-  // VIDEO — mode switch
-  // ─────────────────────────────────────────
+  // ── EDITOR MODAL ──
+  function openEditor(idx) {
+    editingPhotoIdx = idx;
+    const p = capturedPhotos[idx];
+    modalFilter = p.filter;
+    modalFrame  = p.frame;
+
+    document.getElementById('modal-photo-preview').src = p.dataUrl;
+    document.getElementById('modal-photo-preview').style.filter = FILTERS.find(f=>f.id===modalFilter)?.css||'none';
+
+    // build filters
+    document.getElementById('filters-row').innerHTML = FILTERS.map(f => `
+      <div class="filter-opt ${f.id===modalFilter?'selected':''}" onclick="selectModalFilter('${f.id}')">
+        <div class="filter-thumb"><img src="${p.dataUrl}" style="filter:${f.css}" alt="${f.label}" /></div>
+        <div class="filter-label">${f.label}</div>
+      </div>
+    `).join('');
+
+    // build frames
+    document.getElementById('frames-row').innerHTML = FRAMES.map(f => `
+      <div class="frame-opt ${f.id===modalFrame?'selected':''}" onclick="selectModalFrame('${f.id}')">
+        <div class="frame-thumb">${f.emoji}</div>
+        <div class="frame-label">${f.label}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('editor-modal').classList.add('open');
+  }
+
+  function selectModalFilter(id) {
+    modalFilter = id;
+    document.querySelectorAll('.filter-opt').forEach(el => el.classList.remove('selected'));
+    document.querySelector(`.filter-opt[onclick="selectModalFilter('${id}')"]`)?.classList.add('selected');
+    document.getElementById('modal-photo-preview').style.filter = FILTERS.find(f=>f.id===id)?.css||'none';
+  }
+
+  function selectModalFrame(id) {
+    modalFrame = id;
+    document.querySelectorAll('.frame-opt').forEach(el => el.classList.remove('selected'));
+    document.querySelector(`.frame-opt[onclick="selectModalFrame('${id}')"]`)?.classList.add('selected');
+  }
+
+  function applyEffect() {
+    if (editingPhotoIdx === null) return;
+    capturedPhotos[editingPhotoIdx].filter = modalFilter;
+    capturedPhotos[editingPhotoIdx].frame  = modalFrame;
+    renderPhotosStrip();
+    closeModal();
+    // refresh preview if already on preview screen
+    if (document.getElementById('preview-screen').classList.contains('active')) buildLeftPage(currentLayout);
+  }
+
+  function closeModal() {
+    document.getElementById('editor-modal').classList.remove('open');
+    editingPhotoIdx = null;
+  }
+
+  // ── VIDEO MODE ──
   async function switchVideoMode(mode) {
     videoMode = mode;
-    document.getElementById('vid-opt-record').classList.toggle('active', mode === 'record');
-    document.getElementById('vid-opt-upload').classList.toggle('active', mode === 'upload');
-    document.getElementById('record-panel').classList.toggle('active', mode === 'record');
-    document.getElementById('upload-panel').classList.toggle('active', mode === 'upload');
-    if (mode === 'record') await startVideoCam();
-    else stopVideoCam();
+    document.getElementById('vid-opt-record').classList.toggle('active', mode==='record');
+    document.getElementById('vid-opt-upload').classList.toggle('active', mode==='upload');
+    document.getElementById('record-panel').classList.toggle('active', mode==='record');
+    document.getElementById('upload-panel').classList.toggle('active', mode==='upload');
+    if (mode==='record') await startVideoCam(); else stopVideoCam();
   }
 
   async function startVideoCam() {
     stopVideoCam();
     try {
-      videoCamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
+      videoCamStream = await navigator.mediaDevices.getUserMedia({ video:{facingMode:'user'}, audio:true });
       const el = document.getElementById('camera-stream');
-      el.srcObject = videoCamStream; el.style.display = 'block';
-      document.getElementById('recorded-playback').style.display = 'none';
-      document.getElementById('record-btn').innerHTML = '⏺';
-      document.getElementById('record-btn').className = 'record-btn start';
-      document.getElementById('record-btn').style.display = 'flex';
-      document.getElementById('retake-btn').style.display = 'none';
-      document.getElementById('video-done-badge').style.display = 'none';
-      recordedBlob = null;
-    } catch {
-      showError('Camera access denied. Please use Upload option.');
-      switchVideoMode('upload');
-    }
+      el.srcObject = videoCamStream; el.style.display='block';
+      document.getElementById('recorded-playback').style.display='none';
+      document.getElementById('record-btn').innerHTML='⏺'; document.getElementById('record-btn').className='record-btn start';
+      document.getElementById('record-btn').style.display='flex';
+      document.getElementById('retake-btn').style.display='none';
+      document.getElementById('video-done-badge').style.display='none';
+      recordedBlob=null;
+    } catch { showError('Camera access denied. Use Upload option.'); switchVideoMode('upload'); }
   }
-
-  function stopVideoCam() {
-    if (videoCamStream) { videoCamStream.getTracks().forEach(t => t.stop()); videoCamStream = null; }
-  }
-
-  function toggleRecording() { isRecording ? stopRecording() : startRecording(); }
-
+  function stopVideoCam() { if(videoCamStream){videoCamStream.getTracks().forEach(t=>t.stop());videoCamStream=null;} }
+  function toggleRecording() { isRecording?stopRecording():startRecording(); }
   function startRecording() {
-    if (!videoCamStream) return;
-    recordedChunks = [];
-    mediaRecorder = new MediaRecorder(videoCamStream);
-    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
-    mediaRecorder.onstop = onRecordingStop;
-    mediaRecorder.start();
-    isRecording = true; recordingSeconds = 0;
-    document.getElementById('record-btn').innerHTML = '⏹';
-    document.getElementById('record-btn').className = 'record-btn stop';
-    document.getElementById('recording-indicator').style.display = 'flex';
-    recordingTimer = setInterval(() => {
-      recordingSeconds++;
-      const m = Math.floor(recordingSeconds / 60), s = recordingSeconds % 60;
-      document.getElementById('recording-timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
-    }, 1000);
+    if(!videoCamStream) return;
+    recordedChunks=[];
+    mediaRecorder=new MediaRecorder(videoCamStream);
+    mediaRecorder.ondataavailable=e=>{if(e.data.size>0)recordedChunks.push(e.data);};
+    mediaRecorder.onstop=onRecordingStop; mediaRecorder.start();
+    isRecording=true; recordingSeconds=0;
+    document.getElementById('record-btn').innerHTML='⏹'; document.getElementById('record-btn').className='record-btn stop';
+    document.getElementById('recording-indicator').style.display='flex';
+    recordingTimer=setInterval(()=>{ recordingSeconds++; const m=Math.floor(recordingSeconds/60),s=recordingSeconds%60; document.getElementById('recording-timer').textContent=`${m}:${s.toString().padStart(2,'0')}`; },1000);
   }
-
-  function stopRecording() {
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-    isRecording = false; clearInterval(recordingTimer);
-    document.getElementById('recording-indicator').style.display = 'none';
-  }
-
+  function stopRecording() { if(mediaRecorder&&mediaRecorder.state!=='inactive')mediaRecorder.stop(); isRecording=false; clearInterval(recordingTimer); document.getElementById('recording-indicator').style.display='none'; }
   function onRecordingStop() {
-    recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
-    const pb = document.getElementById('recorded-playback');
-    pb.src = URL.createObjectURL(recordedBlob); pb.style.display = 'block';
-    document.getElementById('camera-stream').style.display = 'none';
-    document.getElementById('record-btn').style.display = 'none';
-    document.getElementById('retake-btn').style.display = 'inline-block';
-    document.getElementById('video-done-badge').style.display = 'flex';
+    recordedBlob=new Blob(recordedChunks,{type:'video/webm'});
+    const pb=document.getElementById('recorded-playback'); pb.src=URL.createObjectURL(recordedBlob); pb.style.display='block';
+    document.getElementById('camera-stream').style.display='none'; document.getElementById('record-btn').style.display='none';
+    document.getElementById('retake-btn').style.display='inline-block'; document.getElementById('video-done-badge').style.display='flex';
   }
-
   function retakeVideo() {
-    recordedBlob = null; recordedChunks = [];
-    document.getElementById('recorded-playback').style.display = 'none';
-    document.getElementById('record-btn').style.display = 'flex';
-    document.getElementById('record-btn').innerHTML = '⏺';
-    document.getElementById('record-btn').className = 'record-btn start';
-    document.getElementById('retake-btn').style.display = 'none';
-    document.getElementById('video-done-badge').style.display = 'none';
+    recordedBlob=null; recordedChunks=[];
+    document.getElementById('recorded-playback').style.display='none';
+    document.getElementById('record-btn').style.display='flex'; document.getElementById('record-btn').innerHTML='⏺'; document.getElementById('record-btn').className='record-btn start';
+    document.getElementById('retake-btn').style.display='none'; document.getElementById('video-done-badge').style.display='none';
     startVideoCam();
   }
-
   function handleVideoUpload(input) {
-    const file = input.files[0]; if (!file) return;
-    uploadedVideoFile = file;
-    const prev = document.getElementById('video-preview');
-    prev.src = URL.createObjectURL(file); prev.style.display = 'block';
-    document.getElementById('video-placeholder') && (document.getElementById('video-placeholder').style.display = 'none');
+    const file=input.files[0]; if(!file)return; uploadedVideoFile=file;
+    const prev=document.getElementById('video-preview'); prev.src=URL.createObjectURL(file); prev.style.display='block';
   }
 
-  // ─────────────────────────────────────────
-  // HELPERS
-  // ─────────────────────────────────────────
-  function setProgress(pct, label) {
-    document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('progress-step').textContent = label;
-  }
-  function showError(msg) {
-    const el = document.getElementById('error-msg');
-    el.textContent = msg; el.style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // ── HELPERS ──
+  function setProgress(pct,label){ document.getElementById('progress-fill').style.width=pct+'%'; document.getElementById('progress-step').textContent=label; }
+  function showError(msg){ const el=document.getElementById('error-msg'); el.textContent=msg; el.style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+
   async function transcribeVideo(videoUrl) {
-    const res = await fetch('https://api.assemblyai.com/v2/transcript', {
-      method: 'POST',
-      headers: { authorization: ASSEMBLYAI_KEY, 'content-type': 'application/json' },
-      body: JSON.stringify({ audio_url: videoUrl })
-    });
-    const { id } = await res.json();
-    while (true) {
-      await new Promise(r => setTimeout(r, 3000));
-      const poll = await fetch(`https://api.assemblyai.com/v2/transcript/${id}`, { headers: { authorization: ASSEMBLYAI_KEY } });
-      const data = await poll.json();
-      if (data.status === 'completed') return data.text;
-      if (data.status === 'error') return '';
-    }
+    const res=await fetch('https://api.assemblyai.com/v2/transcript',{method:'POST',headers:{authorization:ASSEMBLYAI_KEY,'content-type':'application/json'},body:JSON.stringify({audio_url:videoUrl})});
+    const {id}=await res.json();
+    while(true){ await new Promise(r=>setTimeout(r,3000)); const poll=await fetch(`https://api.assemblyai.com/v2/transcript/${id}`,{headers:{authorization:ASSEMBLYAI_KEY}}); const data=await poll.json(); if(data.status==='completed')return data.text; if(data.status==='error')return ''; }
   }
 
-  // ─────────────────────────────────────────
-  // SUBMIT
-  // ─────────────────────────────────────────
+  // ── SUBMIT ──
   async function submitEntry() {
-    const name     = document.getElementById('inp-name').value.trim();
-    const relation = document.getElementById('inp-rel').value.trim();
-    let videoBlob  = videoMode === 'record' ? recordedBlob : uploadedVideoFile;
-    let videoExt   = videoMode === 'record' ? 'webm' : (uploadedVideoFile ? uploadedVideoFile.name.split('.').pop() : 'mp4');
-
-    document.getElementById('error-msg').style.display = 'none';
-    if (!name)      return showError('Please enter your name.');
-    if (!videoBlob) return showError('Please record or upload a video!');
-
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    document.getElementById('progress-box').style.display = 'block';
-    setProgress(5, 'Starting…');
-
+    const name=document.getElementById('inp-name').value.trim();
+    const relation=document.getElementById('inp-rel').value.trim();
+    let videoBlob=videoMode==='record'?recordedBlob:uploadedVideoFile;
+    let videoExt=videoMode==='record'?'webm':(uploadedVideoFile?uploadedVideoFile.name.split('.').pop():'mp4');
+    document.getElementById('error-msg').style.display='none';
+    if(!name) return showError('Please enter your name.');
+    if(!videoBlob) return showError('Please record or upload a video!');
+    const btn=document.getElementById('submit-btn'); btn.disabled=true;
+    document.getElementById('progress-box').style.display='block'; setProgress(5,'Starting…');
     try {
-      const uid = crypto.randomUUID();
-
-      // upload photos
-      const photoUrls = [];
-      if (capturedPhotos.length > 0) {
-        setProgress(15, `Uploading ${capturedPhotos.length} photo${capturedPhotos.length>1?'s':''}…`);
-        for (let i = 0; i < capturedPhotos.length; i++) {
-          const p = capturedPhotos[i];
-          const ext = p.blob instanceof File ? p.blob.name.split('.').pop() : 'jpg';
-          const path = `${uid}/photo_${i}.${ext}`;
-          const { error: pe } = await sb.storage.from('photos').upload(path, p.blob, { contentType: 'image/jpeg' });
-          if (pe) throw new Error('Photo upload failed: ' + pe.message);
-          const { data: pd } = sb.storage.from('photos').getPublicUrl(path);
-          photoUrls.push(pd.publicUrl);
+      const uid=crypto.randomUUID();
+      const photoUrls=[];
+      if(capturedPhotos.length>0){
+        setProgress(15,`Uploading ${capturedPhotos.length} photo${capturedPhotos.length>1?'s':''}…`);
+        for(let i=0;i<capturedPhotos.length;i++){
+          const p=capturedPhotos[i]; const ext=p.blob instanceof File?p.blob.name.split('.').pop():'jpg';
+          const path=`${uid}/photo_${i}.${ext}`;
+          const {error:pe}=await sb.storage.from('photos').upload(path,p.blob,{contentType:'image/jpeg'});
+          if(pe) throw new Error('Photo upload failed: '+pe.message);
+          const {data:pd}=sb.storage.from('photos').getPublicUrl(path); photoUrls.push(pd.publicUrl);
         }
       }
-
-      // upload video
-      setProgress(40, 'Uploading your video…');
-      const videoPath = `${uid}/video.${videoExt}`;
-      const { error: ve } = await sb.storage.from('videos').upload(videoPath, videoBlob, { contentType: videoMode === 'record' ? 'video/webm' : videoBlob.type });
-      if (ve) throw new Error('Video upload failed: ' + ve.message);
-      const { data: vd } = sb.storage.from('videos').getPublicUrl(videoPath);
-      const videoUrl = vd.publicUrl;
-
-      // transcribe
-      setProgress(60, 'Transcribing your video message…');
-      const transcription = await transcribeVideo(videoUrl);
-
-      // qr
-      setProgress(85, 'Generating QR code…');
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(videoUrl)}`;
-
-      setProgress(100, 'Almost there…');
-
-      // auto layout
-      const autoLayout = capturedPhotos.length > 1 ? 'collage' : 'slight';
-
-      savedData = { uid, name, relation, photoUrls, videoUrl, transcription, qrUrl, autoLayout };
+      setProgress(40,'Uploading your video…');
+      const videoPath=`${uid}/video.${videoExt}`;
+      const {error:ve}=await sb.storage.from('videos').upload(videoPath,videoBlob,{contentType:videoMode==='record'?'video/webm':videoBlob.type});
+      if(ve) throw new Error('Video upload failed: '+ve.message);
+      const {data:vd}=sb.storage.from('videos').getPublicUrl(videoPath); const videoUrl=vd.publicUrl;
+      setProgress(60,'Transcribing your video message…');
+      const transcription=await transcribeVideo(videoUrl);
+      setProgress(85,'Generating QR code…');
+      const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(videoUrl)}`;
+      setProgress(100,'Almost there…');
+      const autoLayout=capturedPhotos.length>1?'collage':'slight';
+      savedData={uid,name,relation,photoUrls,videoUrl,transcription,qrUrl,autoLayout};
       stopPhotoCam(); stopVideoCam();
       showPreviewScreen();
-
-    } catch (err) {
-      btn.disabled = false;
-      document.getElementById('progress-box').style.display = 'none';
-      showError(err.message || 'Something went wrong. Please try again.');
-    }
+    } catch(err){ btn.disabled=false; document.getElementById('progress-box').style.display='none'; showError(err.message||'Something went wrong.'); }
   }
 
-  // ─────────────────────────────────────────
-  // PREVIEW
-  // ─────────────────────────────────────────
+  // ── PREVIEW ──
   function showPreviewScreen() {
-    const { name, relation, transcription, qrUrl, autoLayout } = savedData;
-
-    document.getElementById('preview-from').textContent = '— ' + name + (relation ? ', ' + relation : '');
-    const msgEl = document.getElementById('preview-message');
-    if (transcription) { msgEl.textContent = transcription; msgEl.classList.remove('placeholder'); }
-    else { msgEl.textContent = 'Video received — transcription will appear in print.'; msgEl.classList.add('placeholder'); }
-    document.getElementById('preview-qr').src = qrUrl;
-
+    const {name,relation,transcription,qrUrl,autoLayout}=savedData;
+    document.getElementById('preview-from').textContent='— '+name+(relation?', '+relation:'');
+    const msgEl=document.getElementById('preview-message');
+    if(transcription){msgEl.textContent=transcription;msgEl.classList.remove('placeholder');}
+    else{msgEl.textContent='Video received — transcription will appear in print.';msgEl.classList.add('placeholder');}
+    document.getElementById('preview-qr').src=qrUrl;
     setLayout(autoLayout);
     showScreen('preview-screen');
   }
 
   function buildLeftPage(layout) {
-    const leftPage = document.getElementById('book-page-left');
-    const { name, photoUrls } = savedData;
-    const foot = leftPage.querySelector('.page-foot');
+    const leftPage=document.getElementById('book-page-left');
+    const {name,photoUrls}=savedData;
+    const hintBar=document.getElementById('edit-hint-bar');
 
-    if (layout === 'collage' && photoUrls.length > 0) {
-      const cols = photoUrls.length === 1 ? 'cols-1' : 'cols-2';
-      leftPage.innerHTML = `
-        <div class="collage-grid ${cols}" style="padding:8px;">
-          ${photoUrls.map((url, i) => `<img src="${url}" alt="photo ${i+1}" />`).join('')}
-        </div>
-        <div class="collage-name">${name}</div>
-        <div class="page-foot">Photo</div>
-      `;
+    if(layout==='collage'&&photoUrls.length>0){
+      hintBar.style.display='block';
+      const cols=photoUrls.length===1?'cols-1':'cols-2';
+      const itemsHtml=photoUrls.map((url,i)=>{
+        const p=capturedPhotos[i]||{filter:'none',frame:'none'};
+        const filterCss=FILTERS.find(f=>f.id===p.filter)?.css||'none';
+        const frameClass=`fr-${p.frame||'none'}`;
+        return `<div class="collage-item ${frameClass}" onclick="openEditorFromPreview(${i})">
+          <img src="${url}" style="filter:${filterCss}" alt="photo ${i+1}" />
+          <div class="collage-edit-hint">✏️</div>
+        </div>`;
+      }).join('');
+      leftPage.innerHTML=`<div class="collage-wrap"><div class="collage-grid ${cols}">${itemsHtml}</div><div class="collage-name">${name}</div></div><div class="page-foot">Photo</div>`;
     } else {
-      // polaroid (single — first photo or placeholder)
-      const imgHtml = photoUrls.length > 0
-        ? `<img src="${photoUrls[0]}" alt="photo" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;" />`
-        : `<div class="pol-placeholder">📷</div>`;
-      leftPage.innerHTML = `
-        <div class="polaroid">
-          ${imgHtml}
-          <div class="polaroid-name">${name}</div>
-        </div>
-        <div class="page-foot">Photo</div>
-      `;
+      hintBar.style.display = photoUrls.length > 0 ? 'block' : 'none';
+      const p=capturedPhotos[0]||{filter:'none',frame:'none'};
+      const filterCss=FILTERS.find(f=>f.id===p.filter)?.css||'none';
+      const frameClass=`fr-${p.frame||'none'}`;
+      const imgHtml=photoUrls.length>0
+        ?`<img src="${photoUrls[0]}" alt="photo" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:${filterCss};" />`
+        :`<div class="pol-placeholder">📷</div>`;
+      leftPage.innerHTML=`<div class="polaroid ${frameClass}" onclick="openEditorFromPreview(0)" style="cursor:pointer;">${imgHtml}<div class="polaroid-name">${name}</div></div><div class="page-foot">Photo</div>`;
     }
+  }
+
+  function openEditorFromPreview(idx) {
+    if(idx >= capturedPhotos.length) return;
+    openEditor(idx);
   }
 
   function setLayout(layout) {
-    currentLayout = layout;
-    document.querySelectorAll('.layout-opt').forEach(el => el.classList.remove('selected'));
-    document.getElementById('layout-' + layout).classList.add('selected');
-    const spread = document.getElementById('book-spread');
-    spread.classList.remove('rot-slight', 'rot-straight', 'rot-right');
-    if (layout === 'slight')    spread.classList.add('rot-slight');
-    if (layout === 'straight')  spread.classList.add('rot-straight');
-    if (layout === 'right')     spread.classList.add('rot-right');
+    currentLayout=layout;
+    document.querySelectorAll('.layout-opt').forEach(el=>el.classList.remove('selected'));
+    document.getElementById('layout-'+layout).classList.add('selected');
+    const spread=document.getElementById('book-spread');
+    spread.classList.remove('rot-slight','rot-straight','rot-right');
+    if(layout==='slight') spread.classList.add('rot-slight');
+    if(layout==='straight') spread.classList.add('rot-straight');
+    if(layout==='right') spread.classList.add('rot-right');
     buildLeftPage(layout);
   }
 
-  // ─────────────────────────────────────────
-  // CONFIRM
-  // ─────────────────────────────────────────
+  // ── CONFIRM ──
   async function confirmSubmission() {
-    const { name, relation, photoUrls, videoUrl, transcription, qrUrl } = savedData;
+    const {name,relation,photoUrls,videoUrl,transcription,qrUrl}=savedData;
+    const photoEffects=capturedPhotos.map(p=>({filter:p.filter,frame:p.frame}));
     try {
-      const { error } = await sb.from('submissions').insert({
-        name, relation,
-        photo_url: photoUrls[0] || null,
-        photo_urls: photoUrls,
-        video_url: videoUrl,
-        transcription,
-        qr_code_url: qrUrl,
-        photo_layout: currentLayout
-      });
-      if (error) throw new Error(error.message);
-      document.getElementById('success-name').textContent = name.split(' ')[0];
+      const {error}=await sb.from('submissions').insert({name,relation,photo_url:photoUrls[0]||null,photo_urls:photoUrls,video_url:videoUrl,transcription,qr_code_url:qrUrl,photo_layout:currentLayout,photo_effects:JSON.stringify(photoEffects)});
+      if(error) throw new Error(error.message);
+      document.getElementById('success-name').textContent=name.split(' ')[0];
       showScreen('success-screen');
-    } catch (err) {
-      showScreen('form-screen');
-      showError('Could not save: ' + err.message);
-    }
+    } catch(err){ showScreen('form-screen'); showError('Could not save: '+err.message); }
   }
 
   function goBackToForm() {
-    document.getElementById('submit-btn').disabled = false;
-    document.getElementById('progress-box').style.display = 'none';
+    document.getElementById('submit-btn').disabled=false;
+    document.getElementById('progress-box').style.display='none';
     showScreen('form-screen');
-    if (videoMode === 'record') startVideoCam();
-    if (photoMode === 'cam') startPhotoCam();
+    if(videoMode==='record') startVideoCam();
+    if(photoMode==='cam') startPhotoCam();
   }
 
-  // ─────────────────────────────────────────
-  // RESET
-  // ─────────────────────────────────────────
   function resetAll() {
-    capturedPhotos = []; renderPhotosStrip();
-    uploadedVideoFile = null; recordedBlob = null; savedData = {};
-    document.getElementById('inp-name').value = '';
-    document.getElementById('inp-rel').value = '';
-    document.getElementById('inp-video').value = '';
-    document.querySelectorAll('.prompt-card').forEach(c => c.classList.remove('selected'));
-    document.getElementById('progress-box').style.display = 'none';
-    document.getElementById('error-msg').style.display = 'none';
-    document.getElementById('submit-btn').disabled = false;
-    showScreen('form-screen');
-    switchPhotoMode('cam');
-    switchVideoMode('record');
+    capturedPhotos=[]; renderPhotosStrip(); uploadedVideoFile=null; recordedBlob=null; savedData={};
+    document.getElementById('inp-name').value=''; document.getElementById('inp-rel').value='';
+    document.getElementById('inp-video').value='';
+    document.querySelectorAll('.prompt-card').forEach(c=>c.classList.remove('selected'));
+    document.getElementById('progress-box').style.display='none'; document.getElementById('error-msg').style.display='none';
+    document.getElementById('submit-btn').disabled=false;
+    showScreen('form-screen'); switchPhotoMode('cam'); switchVideoMode('record');
   }
 
-  // ─────────────────────────────────────────
-  // INIT
-  // ─────────────────────────────────────────
-  window.addEventListener('load', async () => {
-    await startPhotoCam();
-    await startVideoCam();
-  });
+  window.addEventListener('load', async()=>{ await startPhotoCam(); await startVideoCam(); });
 </script>
 </body>
 </html>
