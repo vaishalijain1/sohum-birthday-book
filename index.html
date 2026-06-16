@@ -126,23 +126,43 @@
     .book-qr-label { font-size: 8px; color: #bbb; }
     .book-page-label { font-size: 9px; color: #ccc; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px; }
 
-    /* polaroid in preview */
-    .polaroid-frame { background: white; padding: 8px 8px 22px; box-shadow: 0 3px 14px rgba(0,0,0,0.18); max-width: 116px; width: 100%; transition: transform 0.2s; }
-    .polaroid-frame img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
-    .polaroid-ph { width: 100%; aspect-ratio: 1; background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 26px; }
-    .polaroid-name { text-align: center; margin-top: 5px; font-size: 9px; font-family: Georgia, serif; color: #555; }
+    /* polaroid base */
+    .polaroid-frame { background: white; box-shadow: 0 3px 14px rgba(0,0,0,0.18); width: 100%; max-width: 130px; transition: transform 0.2s; overflow: hidden; }
+    .polaroid-frame img { width: 100%; object-fit: cover; display: block; }
+    .polaroid-ph { width: 100%; background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+    .polaroid-name { text-align: center; font-size: 9px; font-family: Georgia, serif; color: #555; }
 
-    /* frame variants */
-    .pf-none    { box-shadow: none; padding: 0; background: transparent; }
-    .pf-round img { border-radius: 50% !important; }
-    .pf-gold    { border: 3px solid #c9a84c; box-shadow: 0 0 0 1px #f0d080, 0 4px 14px rgba(0,0,0,0.18); }
-    .pf-film    { background: #111; padding: 4px; border-top: 10px solid #111; border-bottom: 10px solid #111; }
-    .pf-film img { border-radius: 0 !important; }
+    /* FRAME 1 — Polaroid landscape (rotated sideways, wider than tall) */
+    .pf-polaroid { padding: 6px 6px 20px; transform: rotate(-4deg) !important; max-width: 130px; }
+    .pf-polaroid img { aspect-ratio: 4/3; border-radius: 0; }
+    .pf-polaroid .polaroid-ph { aspect-ratio: 4/3; }
+    .pf-polaroid .polaroid-name { margin-top: 4px; padding-bottom: 2px; }
+
+    /* FRAME 2 — Portrait (tall rectangle with white border) */
+    .pf-portrait { padding: 6px 6px 22px; max-width: 100px; }
+    .pf-portrait img { aspect-ratio: 3/4; border-radius: 0; }
+    .pf-portrait .polaroid-ph { aspect-ratio: 3/4; }
+    .pf-portrait .polaroid-name { margin-top: 4px; padding-bottom: 2px; }
+
+    /* FRAME 3 — Circle (no white border, image itself is circle) */
+    .pf-circle { background: transparent; box-shadow: none; padding: 0; max-width: 110px; }
+    .pf-circle img { aspect-ratio: 1; border-radius: 50%; box-shadow: 0 3px 14px rgba(0,0,0,0.2); }
+    .pf-circle .polaroid-ph { aspect-ratio: 1; border-radius: 50%; box-shadow: 0 3px 14px rgba(0,0,0,0.2); }
+    .pf-circle .polaroid-name { margin-top: 8px; }
+
+    /* FRAME 4 — Square (thin white border, no bottom tab) */
+    .pf-square { padding: 6px; max-width: 114px; }
+    .pf-square img { aspect-ratio: 1; border-radius: 0; }
+    .pf-square .polaroid-ph { aspect-ratio: 1; }
+    .pf-square .polaroid-name { margin-top: 5px; padding-bottom: 2px; }
 
     /* tilt variants */
-    .tilt-left  .polaroid-frame { transform: rotate(-2.5deg); }
+    .tilt-left  .polaroid-frame:not(.pf-polaroid) { transform: rotate(-2.5deg); }
     .tilt-none  .polaroid-frame { transform: rotate(0deg); }
-    .tilt-right .polaroid-frame { transform: rotate(2.5deg); }
+    .tilt-none  .polaroid-frame.pf-polaroid { transform: rotate(-4deg); }
+    .tilt-right .polaroid-frame:not(.pf-polaroid) { transform: rotate(2.5deg); }
+    .tilt-left  .polaroid-frame.pf-polaroid { transform: rotate(-6deg); }
+    .tilt-right .polaroid-frame.pf-polaroid { transform: rotate(-2deg); }
 
     /* effect pickers */
     .effect-section { margin-bottom: 20px; }
@@ -383,7 +403,7 @@
       <div class="book-left tilt-left" id="book-left">
         <div class="polaroid-frame pf-polaroid" id="polaroid-el">
           <div class="polaroid-ph" id="polaroid-ph">📷</div>
-          <img id="polaroid-img" src="" alt="" style="display:none;width:100%;aspect-ratio:1;object-fit:cover;" />
+          <img id="polaroid-img" src="" alt="" style="display:none;width:100%;object-fit:cover;" />
           <div class="polaroid-name" id="polaroid-name"></div>
         </div>
         <div class="book-page-label">Photo</div>
@@ -454,15 +474,12 @@
     { id:'bw',      label:'B & W',    css:'grayscale(100%)' },
     { id:'vintage', label:'Vintage',  css:'sepia(60%) contrast(90%) brightness(105%)' },
     { id:'warm',    label:'Warm',     css:'sepia(30%) saturate(140%) brightness(108%)' },
-    { id:'cool',    label:'Cool',     css:'hue-rotate(20deg) saturate(110%) brightness(105%)' },
-    { id:'fade',    label:'Fade',     css:'contrast(80%) brightness(112%) saturate(75%)' },
   ];
   const FRAMES = [
-    { id:'polaroid', label:'Polaroid', emoji:'🟦', cls:'pf-polaroid' },
-    { id:'none',     label:'No frame', emoji:'⬜', cls:'pf-none' },
-    { id:'gold',     label:'Gold',     emoji:'🟡', cls:'pf-gold' },
-    { id:'round',    label:'Round',    emoji:'🔵', cls:'pf-round' },
-    { id:'film',     label:'Film',     emoji:'🎞️', cls:'pf-film' },
+    { id:'polaroid', label:'Polaroid', emoji:'🖼️', cls:'pf-polaroid' },
+    { id:'portrait', label:'Portrait', emoji:'🪞',  cls:'pf-portrait' },
+    { id:'circle',   label:'Circle',   emoji:'🔵', cls:'pf-circle' },
+    { id:'square',   label:'Square',   emoji:'⬜', cls:'pf-square' },
   ];
 
   // ── STATE ──
