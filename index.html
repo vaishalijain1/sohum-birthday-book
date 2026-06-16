@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sohum's 2nd Birthday Book</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9f9f9; color: #1a1a1a; }
+    .container { max-width: 520px; margin: 0 auto; padding: 0 0 60px; }
+
+    .header { background: white; border-bottom: 1px solid #eee; padding: 16px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+    .header-icon { width: 38px; height: 38px; border-radius: 50%; background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .header-title { font-size: 15px; font-weight: 600; }
+    .header-sub { font-size: 12px; color: #888; margin-top: 1px; }
+
+    .panel { padding: 20px; }
+    .info-box { background: #EEEDFE; border-radius: 10px; padding: 13px 15px; margin-bottom: 20px; font-size: 13px; color: #534AB7; line-height: 1.5; }
+
+    .form-group { margin-bottom: 18px; }
+    label { font-size: 13px; color: #666; display: block; margin-bottom: 6px; }
+    input[type=text], textarea { width: 100%; padding: 11px 13px; font-size: 14px; border: 1px solid #e0e0e0; border-radius: 8px; background: white; color: #1a1a1a; outline: none; font-family: inherit; }
+    input[type=text]:focus, textarea:focus { border-color: #7F77DD; box-shadow: 0 0 0 3px rgba(127,119,221,0.1); }
+
+    .upload-zone { border: 1.5px dashed #ddd; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; background: #fafafa; transition: all 0.15s; position: relative; overflow: hidden; }
+    .upload-zone:hover { border-color: #7F77DD; background: #EEEDFE; }
+    .upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-icon { font-size: 26px; margin-bottom: 8px; }
+    .upload-text { font-size: 13px; color: #888; }
+    .upload-sub { font-size: 11px; color: #bbb; margin-top: 4px; }
+    .upload-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; display: none; margin-top: 10px; }
+    .video-preview { width: 100%; border-radius: 8px; display: none; margin-top: 10px; }
+
+    .prompt-cards { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 14px; }
+    .prompt-card { border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; background: white; display: flex; gap: 12px; cursor: pointer; transition: all 0.15s; }
+    .prompt-card:hover, .prompt-card.selected { border-color: #7F77DD; background: #EEEDFE; }
+    .prompt-icon { font-size: 20px; flex-shrink: 0; }
+    .prompt-title { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
+    .prompt-desc { font-size: 12px; color: #888; line-height: 1.5; }
+    .prompt-tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #EEEDFE; color: #534AB7; margin-top: 5px; }
+
+    .submit-btn { width: 100%; padding: 14px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .submit-btn:hover { background: #534AB7; }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .progress-box { background: white; border: 1px solid #eee; border-radius: 10px; padding: 16px; margin-bottom: 18px; display: none; }
+    .progress-label { font-size: 13px; color: #666; margin-bottom: 10px; }
+    .progress-bar-bg { background: #f0f0f0; border-radius: 99px; height: 6px; }
+    .progress-bar-fill { background: #7F77DD; border-radius: 99px; height: 6px; width: 0%; transition: width 0.3s; }
+    .progress-step { font-size: 12px; color: #7F77DD; margin-top: 8px; }
+
+    .success-screen { display: none; text-align: center; padding: 40px 20px; }
+    .success-emoji { font-size: 52px; margin-bottom: 16px; }
+    .success-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .success-sub { font-size: 14px; color: #888; line-height: 1.6; }
+    .add-another-btn { margin-top: 24px; padding: 12px 28px; background: #7F77DD; color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+    .error-msg { background: #fff0f0; border: 1px solid #fcc; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #c00; margin-bottom: 16px; display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="header-icon">🎂</div>
+    <div>
+      <div class="header-title">Sohum's 2nd Birthday Book</div>
+      <div class="header-sub">Leave a memory · Watch it forever</div>
+    </div>
+  </div>
+
+  <div id="form-screen" class="panel">
+    <div class="info-box">
+      ✨ Your photo goes in the book, your video message gets transcribed right beside it — and the QR code lets Sohum watch you whenever he wants.
+    </div>
+
+    <div class="error-msg" id="error-msg"></div>
+
+    <div class="form-group">
+      <label>Your name</label>
+      <input type="text" id="inp-name" placeholder="e.g. Auntie Priya" />
+    </div>
+
+    <div class="form-group">
+      <label>Your relation to Sohum</label>
+      <input type="text" id="inp-rel" placeholder="e.g. Grandma, Family friend…" />
+    </div>
+
+    <div class="form-group">
+      <label>Your giggling photo with / without Sohum</label>
+      <div class="upload-zone" id="photo-zone">
+        <input type="file" id="inp-photo" accept="image/*" onchange="previewPhoto(this)" />
+        <div id="photo-placeholder">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">Tap to choose a photo</div>
+          <div class="upload-sub">JPG or PNG</div>
+        </div>
+        <img id="photo-preview" class="upload-preview" alt="Preview" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Record a video wish</label>
+      <div style="font-size: 12px; color: #999; margin-bottom: 10px;">Not sure what to say? Pick an idea:</div>
+      <div class="prompt-cards">
+        <div class="prompt-card" onclick="selectPrompt(0)" id="prompt-0">
+          <div class="prompt-icon">🥰</div>
+          <div>
+            <div class="prompt-title">Share your favourite memory</div>
+            <div class="prompt-desc">A moment with Sohum this past year that made you smile.</div>
+            <span class="prompt-tag">most popular</span>
+          </div>
+        </div>
+        <div class="prompt-card" onclick="selectPrompt(1)" id="prompt-1">
+          <div class="prompt-icon">💡</div>
+          <div>
+            <div class="prompt-title">One piece of advice</div>
+            <div class="prompt-desc">A little nugget of wisdom for him to watch when he's older.</div>
+          </div>
+        </div>
+        <div class="prompt-card" onclick="selectPrompt(2)" id="prompt-2">
+          <div class="prompt-icon">💜</div>
+          <div>
+            <div class="prompt-title">A birthday message from the heart</div>
+            <div class="prompt-desc">Just look into the camera and tell Sohum how much he means to you.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="upload-zone">
+        <input type="file" id="inp-video" accept="video/*" onchange="previewVideo(this)" />
+        <div id="video-placeholder">
+          <div class="upload-icon">🎥</div>
+          <div class="upload-text">Tap to upload your video</div>
+          <div class="upload-sub">MP4 or MOV · a few minutes max</div>
+        </div>
+        <video id="video-preview" class="video-preview" controls></video>
+      </div>
+    </div>
+
+    <div class="progress-box" id="progress-box">
+      <div class="progress-label">Saving your memory…</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+      <div class="progress-step" id="progress-step">Starting…</div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitEntry()">💜 Send my memory to Sohum</button>
+  </div>
+
+  <div class="success-screen" id="success-screen">
+    <div class="success-emoji">🎂</div>
+    <div class="success-title">Thank you, <span id="success-name"></span>!</div>
+    <div class="success-sub">
+      Your photo will be printed in Sohum's book.<br />
+      Your video message will be transcribed right beside it.<br />
+      When he scans the QR, your video will play. 💜
+    </div>
+    <button class="add-another-btn" onclick="resetForm()">Add another memory</button>
+  </div>
+</div>
+
+<script>
+  // ─── REPLACE THESE THREE VALUES WITH YOUR OWN ───
+  const SUPABASE_URL    = 'https://jeeseyaevluaeabenwwn.supabase.co';
+  const SUPABASE_ANON   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplZXNleWFldmx1YWVhYmVud3duIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MTgwNDMsImV4cCI6MjA5NzA5NDA0M30.JjvLe5uUzmDRy-y4Qb7BHDiqUyG5DkKW86yxucA4tXs';
+  const ASSEMBLYAI_KEY  = 'f0db3d622f4a447ead627b3fccb70e0e';
+  // ────────────────────────────────────────────────
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  function selectPrompt(idx) {
+    document.querySelectorAll('.prompt-card').forEach((c, i) => c.classList.toggle('selected', i === idx));
+  }
+
+  function previewPhoto(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const prev = document.getElementById('photo-preview');
+      prev.src = e.target.result;
+      prev.style.display = 'block';
+      document.getElementById('photo-placeholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function previewVideo(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const prev = document.getElementById('video-preview');
+    prev.src = URL.createObjectURL(file);
+    prev.style.display = 'block';
+    document.getElementById('video-placeholder').style.display = 'none';
+  }
+
+  function setProgress(pct, label) {
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-step').textContent = label;
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function transcribeVideo(videoUrl) {
+    const submitRes = await fetch('https://api.assemblyai.com/v2/transcript', {
+      method: 'POST',
+      headers: { authorization: ASSEMBLYAI_KEY, 'content-type': 'application/json' },
+      body: JSON.stringify({ audio_url: videoUrl })
+    });
+    const { id } = await submitRes.json();
+
+    while (true) {
+      await new Promise(r => setTimeout(r, 3000));
+      const pollRes = await fetch(`https://api.assemblyai.com/v2/transcript/${id}`, {
+        headers: { authorization: ASSEMBLYAI_KEY }
+      });
+      const data = await pollRes.json();
+      if (data.status === 'completed') return data.text;
+      if (data.status === 'error') return '';
+    }
+  }
+
+  async function submitEntry() {
+    const name     = document.getElementById('inp-name').value.trim();
+    const relation = document.getElementById('inp-rel').value.trim();
+    const photoFile = document.getElementById('inp-photo').files[0];
+    const videoFile = document.getElementById('inp-video').files[0];
+
+    document.getElementById('error-msg').style.display = 'none';
+    if (!name)      return showError('Please enter your name.');
+    if (!videoFile) return showError('Please upload a video — Sohum will watch it when he scans the QR!');
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    document.getElementById('progress-box').style.display = 'block';
+    setProgress(5, 'Starting…');
+
+    try {
+      const uid = crypto.randomUUID();
+
+      // 1. Upload photo
+      let photoUrl = null;
+      if (photoFile) {
+        setProgress(15, 'Uploading your photo…');
+        const photoExt  = photoFile.name.split('.').pop();
+        const photoPath = `${uid}/photo.${photoExt}`;
+        const { error: photoErr } = await sb.storage.from('photos').upload(photoPath, photoFile);
+        if (photoErr) throw new Error('Photo upload failed: ' + photoErr.message);
+        const { data: photoData } = sb.storage.from('photos').getPublicUrl(photoPath);
+        photoUrl = photoData.publicUrl;
+      }
+
+      // 2. Upload video
+      setProgress(35, 'Uploading your video…');
+      const videoExt  = videoFile.name.split('.').pop();
+      const videoPath = `${uid}/video.${videoExt}`;
+      const { error: videoErr } = await sb.storage.from('videos').upload(videoPath, videoFile);
+      if (videoErr) throw new Error('Video upload failed: ' + videoErr.message);
+      const { data: videoData } = sb.storage.from('videos').getPublicUrl(videoPath);
+      const videoUrl = videoData.publicUrl;
+
+      // 3. Transcribe
+      setProgress(55, 'Transcribing your video message…');
+      const transcription = await transcribeVideo(videoUrl);
+
+      // 4. Generate QR code URL (points to video)
+      setProgress(80, 'Generating QR code…');
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(videoUrl)}`;
+
+      // 5. Save to database
+      setProgress(90, 'Saving to the book…');
+      const { error: dbErr } = await sb.from('submissions').insert({
+        name, relation, photo_url: photoUrl,
+        video_url: videoUrl, transcription, qr_code_url: qrUrl
+      });
+      if (dbErr) throw new Error('Database save failed: ' + dbErr.message);
+
+      setProgress(100, 'Done!');
+      await new Promise(r => setTimeout(r, 600));
+
+      document.getElementById('form-screen').style.display = 'none';
+      document.getElementById('success-name').textContent = name.split(' ')[0];
+      document.getElementById('success-screen').style.display = 'block';
+
+    } catch (err) {
+      btn.disabled = false;
+      document.getElementById('progress-box').style.display = 'none';
+      showError(err.message || 'Something went wrong. Please try again.');
+    }
+  }
+
+  function resetForm() {
+    document.getElementById('inp-name').value = '';
+    document.getElementById('inp-rel').value = '';
+    document.getElementById('inp-photo').value = '';
+    document.getElementById('inp-video').value = '';
+    document.getElementById('photo-preview').style.display = 'none';
+    document.getElementById('photo-placeholder').style.display = 'block';
+    document.getElementById('video-preview').style.display = 'none';
+    document.getElementById('video-placeholder').style.display = 'block';
+    document.querySelectorAll('.prompt-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('progress-box').style.display = 'none';
+    document.getElementById('error-msg').style.display = 'none';
+    document.getElementById('submit-btn').disabled = false;
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('form-screen').style.display = 'block';
+    window.scrollTo({ top: 0 });
+  }
+</script>
+</body>
+</html>
