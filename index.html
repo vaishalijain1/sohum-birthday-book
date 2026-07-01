@@ -114,57 +114,28 @@
     .progress-step-label { font-size: 12px; color: #7F77DD; }
 
     /* ── PREVIEW SCREEN ── */
-    .preview-book-wrap { border-radius: 14px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.14); display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 20px; min-height: 300px; }
-    .book-left { background: #f5f0e8; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 10px; border-right: 1px solid #e0d8c8; position: relative; }
-    .book-left::after { content:''; position:absolute; right:0; top:0; bottom:0; width:5px; background:linear-gradient(to right,rgba(0,0,0,0.07),transparent); }
-    .book-right { background: #fffef9; padding: 14px 12px; display: flex; flex-direction: column; justify-content: space-between; }
-    .book-from { font-size: 9px; font-weight: 700; color: #7F77DD; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; }
-    .book-msg { font-size: 10px; line-height: 1.75; color: #333; font-family: Georgia, serif; font-style: italic; flex: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; }
-    .book-msg.placeholder { color: #bbb; }
-    .book-qr-wrap { margin-top: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
-    .book-qr-img { width: 46px; height: 46px; border-radius: 3px; }
-    .book-qr-label { font-size: 8px; color: #bbb; }
-    .book-page-label { font-size: 9px; color: #ccc; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px; }
+    .preview-book-wrap { border-radius: 14px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.14); display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 20px; gap: 3px; background: #ddd; }
+    .book-left, .book-right { position: relative; overflow: hidden; aspect-ratio: 724/1057; }
+    .page-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-    /* polaroid base */
-    .polaroid-frame { background: white; box-shadow: 0 3px 14px rgba(0,0,0,0.18); width: 100%; max-width: 130px; transition: transform 0.2s; overflow: hidden; }
-    .polaroid-frame img { width: 100%; object-fit: cover; display: block; }
-    .polaroid-ph { width: 100%; background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 26px; }
-    .polaroid-name { text-align: center; font-size: 9px; font-family: Georgia, serif; color: #555; }
+    /* LEFT: photo stack */
+    .photo-stack { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+    .photo-frame { background: white; border: 3px solid #1a1a1a; padding: 5px; box-shadow: 0 5px 18px rgba(0,0,0,0.25); width: 52%; transform: rotate(-3deg); }
+    .photo-frame img, .photo-frame .photo-ph { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .photo-frame .photo-ph { background: rgba(127,119,221,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .photo-name { font-size: 11px; font-family: Georgia, serif; color: #5a6a5e; transform: rotate(-3deg); }
 
-    /* FRAME 1 — Polaroid landscape (rotated sideways, wider than tall) */
-    .pf-polaroid { padding: 6px 6px 20px; transform: rotate(-4deg) !important; max-width: 130px; }
-    .pf-polaroid img { aspect-ratio: 4/3; border-radius: 0; }
-    .pf-polaroid .polaroid-ph { aspect-ratio: 4/3; }
-    .pf-polaroid .polaroid-name { margin-top: 4px; padding-bottom: 2px; }
+    /* RIGHT: transcript stack */
+    .transcript-stack { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; padding: 19% 12% 9%; }
+    .qr-box { width: 38px; height: 38px; background: white; border: 1.5px solid #1a1a1a; padding: 3px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
+    .qr-img { width: 100%; height: 100%; display: block; }
+    .qr-caption { font-size: 7px; color: #555; letter-spacing: 0.03em; margin-bottom: 14px; text-align: center; }
+    .t-name { font-size: 12px; font-weight: 600; font-family: Georgia, serif; color: #222; margin-bottom: 2px; text-align: center; }
+    .t-rel { font-size: 9px; color: #666; font-style: italic; margin-bottom: 12px; text-align: center; }
+    .t-msg { font-size: 9px; line-height: 1.8; color: #2a2a2a; font-family: Georgia, serif; font-style: italic; text-align: center; max-width: 100%; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; }
+    .t-msg.placeholder { color: #aaa; }
 
-    /* FRAME 2 — Portrait (tall rectangle with white border) */
-    .pf-portrait { padding: 6px 6px 22px; max-width: 100px; }
-    .pf-portrait img { aspect-ratio: 3/4; border-radius: 0; }
-    .pf-portrait .polaroid-ph { aspect-ratio: 3/4; }
-    .pf-portrait .polaroid-name { margin-top: 4px; padding-bottom: 2px; }
-
-    /* FRAME 3 — Circle (no white border, image itself is circle) */
-    .pf-circle { background: transparent; box-shadow: none; padding: 0; max-width: 110px; }
-    .pf-circle img { aspect-ratio: 1; border-radius: 50%; box-shadow: 0 3px 14px rgba(0,0,0,0.2); }
-    .pf-circle .polaroid-ph { aspect-ratio: 1; border-radius: 50%; box-shadow: 0 3px 14px rgba(0,0,0,0.2); }
-    .pf-circle .polaroid-name { margin-top: 8px; }
-
-    /* FRAME 4 — Square (thin white border, no bottom tab) */
-    .pf-square { padding: 6px; max-width: 114px; }
-    .pf-square img { aspect-ratio: 1; border-radius: 0; }
-    .pf-square .polaroid-ph { aspect-ratio: 1; }
-    .pf-square .polaroid-name { margin-top: 5px; padding-bottom: 2px; }
-
-    /* tilt variants */
-    .tilt-left  .polaroid-frame:not(.pf-polaroid) { transform: rotate(-2.5deg); }
-    .tilt-none  .polaroid-frame { transform: rotate(0deg); }
-    .tilt-none  .polaroid-frame.pf-polaroid { transform: rotate(-4deg); }
-    .tilt-right .polaroid-frame:not(.pf-polaroid) { transform: rotate(2.5deg); }
-    .tilt-left  .polaroid-frame.pf-polaroid { transform: rotate(-6deg); }
-    .tilt-right .polaroid-frame.pf-polaroid { transform: rotate(-2deg); }
-
-    /* effect pickers */
+    /* effect picker */
     .effect-section { margin-bottom: 20px; }
     .effect-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin-bottom: 10px; }
     .filter-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
@@ -174,19 +145,6 @@
     .filter-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .filter-name { font-size: 10px; color: #888; margin-top: 5px; font-weight: 500; }
     .filter-chip.selected .filter-name { color: #7F77DD; }
-
-    .frame-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
-    .frame-chip { flex-shrink: 0; text-align: center; cursor: pointer; }
-    .frame-preview { width: 58px; height: 58px; border-radius: 10px; border: 2.5px solid transparent; display: flex; align-items: center; justify-content: center; font-size: 26px; background: #f5f5f5; transition: all 0.15s; }
-    .frame-chip.selected .frame-preview { border-color: #7F77DD; background: #EEEDFE; }
-    .frame-name { font-size: 10px; color: #888; margin-top: 5px; font-weight: 500; }
-    .frame-chip.selected .frame-name { color: #7F77DD; }
-
-    .tilt-row { display: flex; gap: 10px; }
-    .tilt-chip { flex: 1; padding: 10px 6px; border: 1.5px solid #eee; border-radius: 10px; text-align: center; cursor: pointer; background: white; font-family: inherit; transition: all 0.15s; }
-    .tilt-chip.selected { border-color: #7F77DD; background: #EEEDFE; }
-    .tilt-chip-icon { font-size: 18px; margin-bottom: 3px; }
-    .tilt-chip-label { font-size: 11px; color: #555; font-weight: 500; }
 
     .confirm-btn { width: 100%; padding: 15px; background: #7F77DD; color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; margin-bottom: 10px; margin-top: 4px; }
     .confirm-btn:hover { background: #534AB7; }
@@ -396,51 +354,38 @@
   <!-- ══ STEP 4: PREVIEW + EFFECTS ══ -->
   <div class="screen" id="screen-3">
     <div class="screen-title">Your page in the book 📖</div>
-    <div class="screen-sub">Choose a filter, frame, and tilt for your photo — then confirm.</div>
+    <div class="screen-sub">Choose a photo effect, then confirm.</div>
 
     <!-- Book spread -->
     <div class="preview-book-wrap">
-      <div class="book-left tilt-left" id="book-left">
-        <div class="polaroid-frame pf-polaroid" id="polaroid-el">
-          <div class="polaroid-ph" id="polaroid-ph">📷</div>
-          <img id="polaroid-img" src="" alt="" style="display:none;width:100%;object-fit:cover;" />
-          <div class="polaroid-name" id="polaroid-name"></div>
+      <!-- LEFT PAGE: photo on botanical background -->
+      <div class="book-left" id="book-left">
+        <img class="page-bg" id="left-bg" src="" alt="" />
+        <div class="photo-stack">
+          <div class="photo-frame" id="photo-frame">
+            <div id="photo-ph" class="photo-ph">📷</div>
+            <img id="photo-img" src="" alt="" style="display:none;" />
+          </div>
+          <div class="photo-name" id="photo-name"></div>
         </div>
-        <div class="book-page-label">Photo</div>
       </div>
-      <div class="book-right">
-        <div>
-          <div class="book-from" id="preview-from">—</div>
-          <div class="book-msg placeholder" id="preview-msg">Your transcribed video message will appear here…</div>
+      <!-- RIGHT PAGE: transcript on B&W background -->
+      <div class="book-right" id="book-right">
+        <img class="page-bg" id="right-bg" src="" alt="" />
+        <div class="transcript-stack">
+          <div class="qr-box"><img class="qr-img" id="preview-qr" src="" alt="QR" /></div>
+          <div class="qr-caption">Scan to watch video</div>
+          <div class="t-name" id="preview-name"></div>
+          <div class="t-rel" id="preview-rel"></div>
+          <div class="t-msg placeholder" id="preview-msg">Your transcribed video message will appear here…</div>
         </div>
-        <div class="book-qr-wrap">
-          <img class="book-qr-img" id="preview-qr" src="" alt="QR" />
-          <div class="book-qr-label">Scan to watch video</div>
-        </div>
-        <div class="book-page-label" style="text-align:right;">Message</div>
       </div>
     </div>
 
-    <!-- Filter picker -->
+    <!-- Filter / effect picker -->
     <div class="effect-section">
-      <div class="effect-label">Filter</div>
+      <div class="effect-label">Photo effect</div>
       <div class="filter-row" id="filter-row"></div>
-    </div>
-
-    <!-- Frame picker -->
-    <div class="effect-section">
-      <div class="effect-label">Frame</div>
-      <div class="frame-row" id="frame-row"></div>
-    </div>
-
-    <!-- Tilt picker -->
-    <div class="effect-section">
-      <div class="effect-label">Photo tilt</div>
-      <div class="tilt-row">
-        <button class="tilt-chip" id="tilt-left" onclick="setTilt('left')"><div class="tilt-chip-icon">↗️</div><div class="tilt-chip-label">Slight tilt</div></button>
-        <button class="tilt-chip selected" id="tilt-none" onclick="setTilt('none')"><div class="tilt-chip-icon">⬜</div><div class="tilt-chip-label">Straight</div></button>
-        <button class="tilt-chip" id="tilt-right" onclick="setTilt('right')"><div class="tilt-chip-icon">↘️</div><div class="tilt-chip-label">Other way</div></button>
-      </div>
     </div>
 
     <button class="confirm-btn" onclick="confirmSubmission()">Looks perfect! 💜 Confirm &amp; save</button>
@@ -468,19 +413,17 @@
   const ASSEMBLYAI_KEY = 'f0db3d622f4a447ead627b3fccb70e0e';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  // ── FILTERS & FRAMES ──
+  // ── FILTERS ──
   const FILTERS = [
     { id:'none',    label:'Original', css:'none' },
     { id:'bw',      label:'B & W',    css:'grayscale(100%)' },
     { id:'vintage', label:'Vintage',  css:'sepia(60%) contrast(90%) brightness(105%)' },
     { id:'warm',    label:'Warm',     css:'sepia(30%) saturate(140%) brightness(108%)' },
   ];
-  const FRAMES = [
-    { id:'polaroid', label:'Polaroid', emoji:'🖼️', cls:'pf-polaroid' },
-    { id:'portrait', label:'Portrait', emoji:'🪞',  cls:'pf-portrait' },
-    { id:'circle',   label:'Circle',   emoji:'🔵', cls:'pf-circle' },
-    { id:'square',   label:'Square',   emoji:'⬜', cls:'pf-square' },
-  ];
+
+  // ── PAGE BACKGROUND IMAGES (hosted on Supabase) ──
+  const BG_COLOR = 'https://jeeseyaevluaeabenwwn.supabase.co/storage/v1/object/public/backgrounds/page_background_color.jpg';  // botanical colour background (left page)
+  const BG_BW    = 'https://jeeseyaevluaeabenwwn.supabase.co/storage/v1/object/public/backgrounds/page_background_bw.jpg';     // black & white background (right page)
 
   // ── STATE ──
   let currentStep    = 0;
@@ -503,8 +446,6 @@
 
   let savedData      = {};
   let selFilter      = 'none';
-  let selFrame       = 'polaroid';
-  let selTilt        = 'none';
 
   // ── STEP NAV ──
   function showStep(n) {
@@ -742,28 +683,33 @@
   // ── PREVIEW SCREEN ──
   function buildPreviewScreen(){
     const {name,relation,transcription,qrUrl}=savedData;
-    // right page
-    document.getElementById('preview-from').textContent='— '+name+(relation?', '+relation:'');
+
+    // set backgrounds
+    document.getElementById('left-bg').src = BG_COLOR;
+    document.getElementById('right-bg').src = BG_BW;
+
+    // right page transcript
+    document.getElementById('preview-name').textContent = name;
+    document.getElementById('preview-rel').textContent = relation || '';
     const msgEl=document.getElementById('preview-msg');
     if(transcription){ msgEl.textContent=transcription; msgEl.classList.remove('placeholder'); }
     else { msgEl.textContent='Video received — transcription will appear in print.'; msgEl.classList.add('placeholder'); }
     document.getElementById('preview-qr').src=qrUrl;
-    // polaroid
-    document.getElementById('polaroid-name').textContent=name;
+
+    // left page photo
+    document.getElementById('photo-name').textContent = name;
     if(photoDataUrl){
-      document.getElementById('polaroid-img').src=photoDataUrl;
-      document.getElementById('polaroid-img').style.display='block';
-      document.getElementById('polaroid-ph').style.display='none';
+      document.getElementById('photo-img').src=photoDataUrl;
+      document.getElementById('photo-img').style.display='block';
+      document.getElementById('photo-ph').style.display='none';
     } else {
-      document.getElementById('polaroid-img').style.display='none';
-      document.getElementById('polaroid-ph').style.display='flex';
+      document.getElementById('photo-img').style.display='none';
+      document.getElementById('photo-ph').style.display='flex';
     }
-    // build pickers
-    buildFilterRow(); buildFrameRow();
-    // default
-    selFilter='none'; selFrame='polaroid'; selTilt='none';
+
+    selFilter='none';
+    buildFilterRow();
     applyEffects();
-    setTilt('none');
   }
 
   function buildFilterRow(){
@@ -776,16 +722,6 @@
     `).join('');
   }
 
-  function buildFrameRow(){
-    const row=document.getElementById('frame-row');
-    row.innerHTML=FRAMES.map(f=>`
-      <div class="frame-chip ${f.id===selFrame?'selected':''}" onclick="pickFrame('${f.id}')">
-        <div class="frame-preview">${f.emoji}</div>
-        <div class="frame-name">${f.label}</div>
-      </div>
-    `).join('');
-  }
-
   function pickFilter(id){
     selFilter=id;
     document.querySelectorAll('.filter-chip').forEach(el=>el.classList.remove('selected'));
@@ -793,31 +729,10 @@
     applyEffects();
   }
 
-  function pickFrame(id){
-    selFrame=id;
-    document.querySelectorAll('.frame-chip').forEach(el=>el.classList.remove('selected'));
-    document.querySelector(`.frame-chip[onclick="pickFrame('${id}')"]`)?.classList.add('selected');
-    applyEffects();
-  }
-
   function applyEffects(){
-    const img=document.getElementById('polaroid-img');
-    const filterCss=FILTERS.find(f=>f.id===selFilter)?.css||'none';
-    if(img) img.style.filter=filterCss;
-    // frame
-    const pol=document.getElementById('polaroid-el');
-    FRAMES.forEach(f=>pol.classList.remove(f.cls));
-    const frameCls=FRAMES.find(f=>f.id===selFrame)?.cls||'pf-polaroid';
-    pol.classList.add(frameCls);
-  }
-
-  function setTilt(t){
-    selTilt=t;
-    document.querySelectorAll('.tilt-chip').forEach(el=>el.classList.remove('selected'));
-    document.getElementById(`tilt-${t}`).classList.add('selected');
-    const left=document.getElementById('book-left');
-    left.classList.remove('tilt-left','tilt-none','tilt-right');
-    left.classList.add(`tilt-${t}`);
+    const filterCss = FILTERS.find(f=>f.id===selFilter)?.css || 'none';
+    const img = document.getElementById('photo-img');
+    if (img) img.style.filter = filterCss;
   }
 
   // ── CONFIRM ──
@@ -831,8 +746,8 @@
         video_url:videoUrl,
         transcription,
         qr_code_url:qrUrl,
-        photo_layout:selTilt,
-        photo_effects:JSON.stringify([{filter:selFilter,frame:selFrame}])
+        photo_layout:'standard',
+        photo_effects:JSON.stringify([{filter:selFilter}])
       });
       if(error) throw new Error(error.message);
       document.getElementById('success-name').textContent=name.split(' ')[0];
@@ -846,7 +761,7 @@
   function resetAll(){
     photoDataUrl=null; photoBlob=null; photoAccepted=false;
     recordedBlob=null; uploadedVideoFile=null; recordedChunks=[];
-    savedData={}; selFilter='none'; selFrame='polaroid'; selTilt='none';
+    savedData={}; selFilter='none';
     document.getElementById('inp-name').value='';
     document.getElementById('inp-rel').value='';
     document.getElementById('inp-photo').value='';
